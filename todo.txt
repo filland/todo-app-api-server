@@ -1,0 +1,15 @@
+
+
+CURRENT: - registration via email. (Java mail api)
+
+TODO:
+
+- GWT token authentication
+- Role based security (find tutorial and ways to implement (User and Admin))
+- Write tests for the TodoService
+- Write tests for the UserService
+
+DONE:
+- find docs and tutorials on how to login using REST
+- Implement basic authentication
+- replace my own filter for CORS with a config provided from Spring
