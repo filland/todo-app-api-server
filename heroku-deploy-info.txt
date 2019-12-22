@@ -1,0 +1,16 @@
+https://www.callicoder.com/deploy-host-spring-boot-apps-on-heroku/#deploying-a-spring-boot-app-on-heroku-using-heroku-cli-deploy-plugin
+
+Commands:
+
+// login to heroku CLI
+
+// make sure that Heroku Deploy CLI Plugin is installed
+
+// create heroku app
+heroku create <APP-NAME> --no-remote
+
+// build a jar file
+mvn clean package
+
+// publish to heroku
+heroku deploy:jar target/todoapp-0.0.1-SNAPSHOT.jar

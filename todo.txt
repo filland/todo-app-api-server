@@ -4,6 +4,7 @@ CURRENT: - registration via email. (Java mail api)
 
 TODO:
 
+- move to PostgresSQL server
 - GWT token authentication
 - Role based security (find tutorial and ways to implement (User and Admin))
 - Write tests for the TodoService
