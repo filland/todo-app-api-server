@@ -4,7 +4,10 @@ CURRENT: - registration via email. (Java mail api)
 
 TODO:
 
+- add SSL (TSL ?) sertificate so it is possible to connect to the server via https.
+- populate database with default data on creation (e.g system users)
 - move to PostgresSQL server
+- how to easily switch between local database creds ?
 - GWT token authentication
 - Role based security (find tutorial and ways to implement (User and Admin))
 - Write tests for the TodoService
