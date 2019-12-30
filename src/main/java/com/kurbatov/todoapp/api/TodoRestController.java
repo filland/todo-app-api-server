@@ -2,6 +2,8 @@ package com.kurbatov.todoapp.api;
 
 import com.kurbatov.todoapp.persistence.Todo;
 import com.kurbatov.todoapp.persistence.TodoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/todos")
 public class TodoRestController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private TodoService todoService;

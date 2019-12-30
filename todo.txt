@@ -1,19 +1,20 @@
 
 
-CURRENT: - registration via email. (Java mail api)
+CURRENT: - Role based security (find tutorial and ways to implement (User and Admin))
 
 TODO:
 
-- add SSL (TSL ?) sertificate so it is possible to connect to the server via https.
-- populate database with default data on creation (e.g system users)
-- move to PostgresSQL server
-- how to easily switch between local database creds ?
 - GWT token authentication
-- Role based security (find tutorial and ways to implement (User and Admin))
+- add SSL (TSL ?) sertificate so it is possible to connect to the server via https.
+- registration via email. (Java mail api)
+- populate database with default data on creation (e.g system users)
+- how to easily switch between local database creds ?
 - Write tests for the TodoService
 - Write tests for the UserService
+- move to PostgresSQL server
 
 DONE:
+- add logging to file to preserve logs from the app
 - find docs and tutorials on how to login using REST
 - Implement basic authentication
 - replace my own filter for CORS with a config provided from Spring
