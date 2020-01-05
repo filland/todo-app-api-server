@@ -49,7 +49,7 @@ public class TodoRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> saveTodo(@RequestBody Todo todo) {
-
+        System.out.println(todo.getTitle() + " "+ todo.getDescription());
         long todoID = todoService.save(todo);
 
         return new ResponseEntity<>(todoID, HttpStatus.CREATED);
