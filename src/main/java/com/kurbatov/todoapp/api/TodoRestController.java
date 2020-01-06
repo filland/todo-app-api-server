@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 @RestController
@@ -48,7 +52,15 @@ public class TodoRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> saveTodo(@RequestBody Todo todo) {
+    public ResponseEntity<Long> saveTodo(@RequestBody Todo todo, HttpServletRequest request) {
+        System.out.println();
+        System.out.println("character encoding for reading request bodies: "+request.getCharacterEncoding());
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String s = headerNames.nextElement();
+            System.out.println(s+ ": "+request.getHeader(s));
+        }
+
         System.out.println(todo.getTitle() + " "+ todo.getDescription());
         long todoID = todoService.save(todo);
 

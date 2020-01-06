@@ -4,6 +4,7 @@ CURRENT: - Role based security (find tutorial and ways to implement (User and Ad
 
 TODO:
 
+- add support of cyrillic symbols
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - GWT token authentication
 - add SSL (TSL ?) sertificate so it is possible to connect to the server via https.
