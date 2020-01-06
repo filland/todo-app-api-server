@@ -52,16 +52,8 @@ public class TodoRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Long> saveTodo(@RequestBody Todo todo, HttpServletRequest request) {
-        System.out.println();
-        System.out.println("character encoding for reading request bodies: "+request.getCharacterEncoding());
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String s = headerNames.nextElement();
-            System.out.println(s+ ": "+request.getHeader(s));
-        }
+    public ResponseEntity<Long> saveTodo(@RequestBody Todo todo) {
 
-        System.out.println(todo.getTitle() + " "+ todo.getDescription());
         long todoID = todoService.save(todo);
 
         return new ResponseEntity<>(todoID, HttpStatus.CREATED);
