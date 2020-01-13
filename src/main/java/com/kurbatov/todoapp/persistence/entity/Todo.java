@@ -1,20 +1,27 @@
-package com.kurbatov.todoapp.persistence;
+package com.kurbatov.todoapp.persistence.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "todo")
-public class Todo {
+public class Todo extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "todoID")
+    @JsonProperty("id")
+    private Long todoID;
 
     @Column(name = "title")
     private String title;
@@ -25,8 +32,10 @@ public class Todo {
     @Column(name = "done", nullable = false, columnDefinition = "tinyint default false")
     private Boolean done;
 
-    @Column(name = "active", nullable = false, columnDefinition = "tinyint default true")
-    private Boolean active;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userID")
+    private User owner;
 
     public Todo() {
     }
@@ -37,12 +46,12 @@ public class Todo {
         this.done = done;
     }
 
-    public Long getId() {
-        return id;
+    public Long getTodoID() {
+        return todoID;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTodoID(Long todoID) {
+        this.todoID = todoID;
     }
 
     public String getTitle() {
@@ -69,11 +78,19 @@ public class Todo {
         this.done = done;
     }
 
-    public Boolean isActive() {
-        return active;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Todo{" +
+                "todoID=" + todoID +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

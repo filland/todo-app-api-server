@@ -1,21 +1,24 @@
 
 
-CURRENT: - Role based security (find tutorial and ways to implement (User and Admin))
+CURRENT: - GWT token authentication
 
 TODO:
 
-- add support of cyrillic symbols
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
-- GWT token authentication
-- add SSL (TSL ?) sertificate so it is possible to connect to the server via https.
+- Pageable for pagination (see PR dao project)
+- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - registration via email. (Java mail api)
 - populate database with default data on creation (e.g system users)
 - how to easily switch between local database creds ?
 - Write tests for the TodoService
 - Write tests for the UserService
 - move to PostgresSQL server
+- converters for converting from entity to resource and back like in RP
 
 DONE:
+- Role based security (find tutorial and ways to implement (User and Admin)) (10hrs)
+    Using PermissionEvaluator and logic taken from ReportPortal
+- add support of cyrillic symbols (prod db didn't have UTF-8 encoding)
 - add logging to file to preserve logs from the app
 - find docs and tutorials on how to login using REST
 - Implement basic authentication
