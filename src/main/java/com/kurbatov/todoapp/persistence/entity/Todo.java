@@ -46,6 +46,12 @@ public class Todo extends BaseEntity {
         this.done = done;
     }
 
+    @JsonIgnore
+    @Override
+    public Long getId() {
+        return todoID;
+    }
+
     public Long getTodoID() {
         return todoID;
     }

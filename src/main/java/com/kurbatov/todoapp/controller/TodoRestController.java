@@ -2,6 +2,7 @@ package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.persistence.dao.TodoService;
 import com.kurbatov.todoapp.persistence.entity.Todo;
+import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +64,10 @@ public class TodoRestController {
 
     @PutMapping(value = "/{todoID}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Todo updateTodo(@RequestBody Todo todo, @PathVariable Long todoID) {
-
+    public Todo updateTodo(@RequestBody Todo todo, @PathVariable Long todoID,
+                           Authentication authentication) {
+        Long userID = ((CustomUserDetails) authentication.getPrincipal()).getUserID();
+        todo.setOwner(new User(userID));
         return todoService.update(todo);
     }
 

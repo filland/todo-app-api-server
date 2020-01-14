@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity implements Identifier {
 
     @Column(name = "active", nullable = false, columnDefinition = "tinyint default true")
     private Boolean active;

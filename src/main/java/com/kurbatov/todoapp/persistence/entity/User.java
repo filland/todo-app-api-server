@@ -1,5 +1,6 @@
 package com.kurbatov.todoapp.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Column;
@@ -34,11 +35,21 @@ public class User extends BaseEntity {
     public User() {
     }
 
+    public User(Long userID) {
+        this.userID = userID;
+    }
+
     public User(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    @JsonIgnore
+    @Override
+    public Long getId() {
+        return userID;
     }
 
     public Long getUserID() {
