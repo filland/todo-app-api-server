@@ -8,7 +8,8 @@ package com.kurbatov.todoapp.security;
  * Set of permissions: com.epam.ta.reportportal.auth.permissions.Permissions
  */
 public enum Role {
-    USER(1), ADMIN(2);
+    USER(1),
+    ADMIN(2);
 
     public static final String ROLE_PREFIX = "ROLE_";
 

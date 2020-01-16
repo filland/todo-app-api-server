@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -15,18 +15,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserService userService;
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userService.findByUsername(username);
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
-        System.out.println(encoder.encode("123123"));
+        return new CustomUserDetails(user);
+    }
 
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
+    /**
+     * Method is used by JWTAuthenticationFilter
+     */
+    @Transactional
+    public UserDetails loadUserById(Long id) {
+        User user = userService.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + id)
+                );
 
         return new CustomUserDetails(user);
     }

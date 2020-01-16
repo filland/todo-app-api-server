@@ -7,6 +7,7 @@ import com.kurbatov.todoapp.security.permissions.LookupPermission;
 import com.kurbatov.todoapp.security.permissions.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
 import static com.kurbatov.todoapp.security.permissions.AppPermission.TODO_OWNER_PERMISSION_NAME;
@@ -24,6 +25,10 @@ public class TodoOwnerPermission implements Permission {
         CustomUserDetails userDetails = (CustomUserDetails)authentication.getPrincipal();
 
         Todo dbTodo = todoService.find((Long) todoID);
+
+        if (dbTodo == null) {
+            return false;
+        }
 
         return userDetails.getUserID().equals(dbTodo.getOwner().getUserID());
     }

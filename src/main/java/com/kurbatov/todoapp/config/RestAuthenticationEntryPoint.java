@@ -1,5 +1,7 @@
 package com.kurbatov.todoapp.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -15,12 +17,14 @@ import java.io.IOException;
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
+
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException e) throws IOException, ServletException {
-
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        LOGGER.error("Unauthorized request.", e);
         response.getWriter().write(HttpServletResponse.SC_UNAUTHORIZED+" Unauthorized");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }

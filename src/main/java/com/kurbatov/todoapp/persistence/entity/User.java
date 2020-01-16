@@ -2,6 +2,8 @@ package com.kurbatov.todoapp.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kurbatov.todoapp.security.Role;
+import com.kurbatov.todoapp.security.jwt.SignUpRQ;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
