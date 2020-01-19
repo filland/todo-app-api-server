@@ -1,9 +1,10 @@
 
 
-CURRENT: - GWT token authentication
+CURRENT: - OAuth2 support for github
 
 TODO:
 
+- refactor the Jwt
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Pageable for pagination (see PR dao project)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
@@ -14,9 +15,12 @@ TODO:
 - Write tests for the UserService
 - move to PostgresSQL server
 - converters for converting from entity to resource and back like in RP
+- cache for get requests (Hibernate second level cache?)
 
 DONE:
-- Role based security (find tutorial and ways to implement (User and Admin)) (10hrs)
+- update JWT token payload so it contains username not userId(30m)
+- GWT token authentication (16h)
+- Role based security (find tutorial and ways to implement (User and Admin)) (10h)
     Using PermissionEvaluator and logic taken from ReportPortal
 - add support of cyrillic symbols (prod db didn't have UTF-8 encoding)
 - add logging to file to preserve logs from the app
