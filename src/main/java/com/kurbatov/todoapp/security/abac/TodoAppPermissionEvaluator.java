@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.security.permissions;
+package com.kurbatov.todoapp.security.abac;
 
 import com.kurbatov.todoapp.security.Role;
 import org.springframework.security.access.PermissionEvaluator;
@@ -55,7 +55,6 @@ public class TodoAppPermissionEvaluator implements PermissionEvaluator {
                     "No permission with key " + permissionKey + " is defined in " + this.getClass().toString());
         }
     }
-
 
     @Override
     public boolean hasPermission(Authentication authentication, Serializable targetId, String targetType, Object permission) {

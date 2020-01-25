@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.config;
+package com.kurbatov.todoapp.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

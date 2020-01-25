@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.kurbatov.todoapp.security.permissions.AppPermission.TODO_OWNER;
+import static com.kurbatov.todoapp.security.abac.AppPermission.TODO_OWNER;
 
 @RestController
-@RequestMapping("/todos")
+@RequestMapping("/api/v1/todos")
 public class TodoRestController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TodoRestController.class);

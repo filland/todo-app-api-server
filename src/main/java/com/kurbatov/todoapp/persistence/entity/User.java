@@ -2,11 +2,12 @@ package com.kurbatov.todoapp.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.kurbatov.todoapp.security.Role;
-import com.kurbatov.todoapp.security.jwt.SignUpRQ;
+import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,23 +17,36 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User extends BaseEntity {
 
+    @JsonProperty("id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userID")
-    @JsonProperty("id")
     private Long userID;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
 
     @Column(name = "username")
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
+    @JsonIgnore
     @Column(name = "role")
     private String role;
+
+    @JsonIgnore
+    @Enumerated(EnumType.STRING)
+    @Column(name = "oauth2_provider")
+    private AuthProvider provider;
 
     public User() {
     }
@@ -60,6 +74,22 @@ public class User extends BaseEntity {
 
     public void setUserID(Long userID) {
         this.userID = userID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getUsername() {
@@ -92,5 +122,13 @@ public class User extends BaseEntity {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public AuthProvider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(AuthProvider provider) {
+        this.provider = provider;
     }
 }

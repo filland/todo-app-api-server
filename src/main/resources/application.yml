@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+#          google:
+#            clientId: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
+#            clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
+#            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+#            scope:
+#              - email
+#              - profile
+#          facebook:
+#            clientId: 121189305185277
+#            clientSecret: 42ffe5aa7379e8326387e0fe16f34132
+#            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+#            scope:
+#              - email
+#              - public_profile
+          github:
+            clientId: dcce4dc91ab78d7a6c9c
+            clientSecret: e144e43e55dd6fa71f3c90c00ffba52448e45cbb
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user

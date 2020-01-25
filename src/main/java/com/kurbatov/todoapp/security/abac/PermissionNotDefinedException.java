@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.security.permissions;
+package com.kurbatov.todoapp.security.abac;
 
 public class PermissionNotDefinedException extends RuntimeException {
 

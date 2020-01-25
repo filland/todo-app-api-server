@@ -27,10 +27,10 @@ public class JwtTokenProvider {
     public static final String USERNAME_JWT_PAYLOAD_KEY = "username";
     private static final String ROLES_JWT_PAYLOAD_KEY = "roles";
 
-    @Value("${app.jwtSecret}")
+    @Value("${app.auth.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMs}")
+    @Value("${app.auth.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {

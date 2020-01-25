@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Handles authentication using username/password
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
@@ -52,7 +55,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity register(SignUpRQ signUpRQ) {
+    public ResponseEntity register(@RequestBody SignUpRQ signUpRQ) {
         if (userService.existsByUsername(signUpRQ.getUsername())) {
             return new ResponseEntity("Username is already taken!", HttpStatus.BAD_REQUEST);
         }

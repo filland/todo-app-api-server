@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.security.permissions;
+package com.kurbatov.todoapp.security.abac;
 
 import com.kurbatov.todoapp.util.ApplicationContextAwareFactoryBean;
 import org.springframework.security.access.PermissionEvaluator;
