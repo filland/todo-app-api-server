@@ -29,9 +29,9 @@ import static com.kurbatov.todoapp.security.abac.AppPermission.TODO_OWNER;
 
 @RestController
 @RequestMapping("/api/v1/todos")
-public class TodoRestController {
+public class TodoController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(TodoRestController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
 
     @Autowired
     private TodoService todoService;

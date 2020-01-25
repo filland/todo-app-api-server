@@ -34,7 +34,7 @@ public class Todo extends BaseEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "ownerID")
     private User owner;
 
     public Todo() {

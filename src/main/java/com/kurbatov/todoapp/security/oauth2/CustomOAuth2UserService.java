@@ -1,6 +1,5 @@
 package com.kurbatov.todoapp.security.oauth2;
 
-import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.dao.UserService;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;

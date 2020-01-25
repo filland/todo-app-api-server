@@ -9,7 +9,6 @@ TODO:
 - Pageable for pagination (see PR dao project)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - registration via email. (Java mail api)
-- populate database with default data on creation (e.g system users)
 - how to easily switch between local database creds ?
 - Write tests for the TodoService
 - Write tests for the UserService
@@ -18,7 +17,8 @@ TODO:
 - cache for get requests (Hibernate second level cache?)
 
 DONE:
-- OAuth2 support for github (50h)
+- populate database with default data on creation (e.g users, todos)(2h)
+- OAuth2 support for github (40h)
 - update JWT token payload so it contains username not userId(30m)
 - GWT token authentication (16h)
 - Role based security (find tutorial and ways to implement (User and Admin)) (10h)
