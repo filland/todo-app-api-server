@@ -1,11 +1,12 @@
 package com.kurbatov.todoapp.security.oauth2;
 
-import com.kurbatov.todoapp.persistence.dao.UserService;
+import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.oauth2.exception.OAuth2AuthenticationProcessingException;
 import com.kurbatov.todoapp.security.oauth2.user.OAuth2UserInfo;
 import com.kurbatov.todoapp.security.oauth2.user.OAuth2UserInfoFactory;
+import com.kurbatov.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -52,17 +53,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
 
         if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
-            throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
+            throw new OAuth2AuthenticationProcessingException(ErrorType.AUTH_OAUTH2_EMAIL_NOT_FOUND);
         }
 
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            if (!user.getProvider().equals(AuthProvider.toEnum(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
-                throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
-                        user.getProvider() + " account. Please use your " + user.getProvider() +
-                        " account to login.");
+            if (!user.getProvider().equals(
+                    AuthProvider.toEnum(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
+            ) {
+                throw new OAuth2AuthenticationProcessingException(
+                        ErrorType.AUTH_OAUTH2_WRONG_AUTH_MECHANISM,
+                        user.getProvider().name()
+                );
             }
             user = updateExistingUser(user, oAuth2UserInfo);
         } else {

@@ -1,5 +1,6 @@
-package com.kurbatov.todoapp.persistence.dao;
+package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

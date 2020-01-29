@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.persistence.dao;
+package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.persistence.entity.User;
 

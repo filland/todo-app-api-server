@@ -1,9 +1,9 @@
 package com.kurbatov.todoapp.persistence.init;
 
-import com.kurbatov.todoapp.persistence.dao.TodoService;
-import com.kurbatov.todoapp.persistence.dao.UserService;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.persistence.entity.User;
+import com.kurbatov.todoapp.service.TodoService;
+import com.kurbatov.todoapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ public class PopulateTables {
     @PostConstruct
     public void populate() {
         try {
-
             Optional<User> test = userService.findById(1L);
             if (!test.isPresent()) {
 

@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.security;
 
-import com.kurbatov.todoapp.persistence.dao.UserService;
+import com.kurbatov.todoapp.service.UserService;
 import com.kurbatov.todoapp.persistence.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

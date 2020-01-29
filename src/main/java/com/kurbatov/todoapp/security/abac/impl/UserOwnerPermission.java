@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.security.abac.impl;
 
-import com.kurbatov.todoapp.persistence.dao.UserService;
+import com.kurbatov.todoapp.service.UserService;
 import com.kurbatov.todoapp.security.abac.LookupPermission;
 import com.kurbatov.todoapp.security.abac.Permission;
 import org.springframework.beans.factory.annotation.Autowired;

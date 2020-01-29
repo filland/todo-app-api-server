@@ -1,10 +1,9 @@
 
 
-CURRENT:
+CURRENT: - populate the exceptionMap responses to default Spring's exceptions
 
 TODO:
 
-- refactor the Jwt
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Pageable for pagination (see PR dao project)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
@@ -12,11 +11,17 @@ TODO:
 - how to easily switch between local database creds ?
 - Write tests for the TodoService
 - Write tests for the UserService
-- move to PostgresSQL server
 - converters for converting from entity to resource and back like in RP
 - cache for get requests (Hibernate second level cache?)
+- move to PostgresSQL server
 
 DONE:
+- refactor controllers and move all logic to services (1h)
+--how to not pass ResponseEntity from the service layer ???? - answer is to handle all exceptions in a separate place
+- custom exception handler to handle exceptions and translate them to HTTP status codes (16h)
+-- what is better ControllerAdvice or DefaultHandlerExceptionResolver with reconfiguring
+all spring exception handling (pros and cons) - answer is that controller advice can handle all exception
+so I guess follow the KISS principle
 - populate database with default data on creation (e.g users, todos)(2h)
 - OAuth2 support for github (40h)
 - update JWT token payload so it contains username not userId(30m)

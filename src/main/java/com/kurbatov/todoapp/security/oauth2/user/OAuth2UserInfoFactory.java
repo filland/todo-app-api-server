@@ -1,5 +1,6 @@
 package com.kurbatov.todoapp.security.oauth2.user;
 
+import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 import com.kurbatov.todoapp.security.oauth2.GithubUserEmailRS;
 import com.kurbatov.todoapp.security.oauth2.exception.OAuth2AuthenticationProcessingException;
@@ -54,7 +55,7 @@ public class OAuth2UserInfoFactory {
 
             return new GithubOAuth2UserInfo(attributes);
         } else {
-            throw new OAuth2AuthenticationProcessingException("Sorry! Login with " + registrationId + " is not supported yet.");
+            throw new OAuth2AuthenticationProcessingException(ErrorType.AUTH_OAUTH2_PROVIDER_NOT_SUPPORTED, registrationId);
         }
     }
 }

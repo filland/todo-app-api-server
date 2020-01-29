@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.security.abac.impl;
 
-import com.kurbatov.todoapp.persistence.dao.TodoService;
+import com.kurbatov.todoapp.service.TodoService;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.abac.LookupPermission;

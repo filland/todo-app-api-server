@@ -1,14 +1,19 @@
 package com.kurbatov.todoapp.security.oauth2.exception;
 
-import org.springframework.security.core.AuthenticationException;
+import com.kurbatov.todoapp.exception.ErrorType;
+import com.kurbatov.todoapp.exception.TodoAppException;
 
-public class OAuth2AuthenticationProcessingException extends AuthenticationException {
+public class OAuth2AuthenticationProcessingException extends TodoAppException {
 
-    public OAuth2AuthenticationProcessingException(String msg, Throwable t) {
-        super(msg, t);
+    public OAuth2AuthenticationProcessingException(String message) {
+        super(message);
     }
 
-    public OAuth2AuthenticationProcessingException(String msg) {
-        super(msg);
+    public OAuth2AuthenticationProcessingException(ErrorType errorType, String... params) {
+        super(errorType, params);
+    }
+
+    public OAuth2AuthenticationProcessingException(String message, Throwable cause) {
+        super(message, cause);
     }
 }
