@@ -85,6 +85,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase())
         );
         user.setActive(true);
+        user.setEmailConfirmed(false);
         return userRepository.saveUser(user);
     }
 

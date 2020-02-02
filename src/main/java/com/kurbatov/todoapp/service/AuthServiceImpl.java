@@ -2,12 +2,14 @@ package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.exception.TodoAppException;
+import com.kurbatov.todoapp.persistence.entity.ConfirmationToken;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.Role;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.security.jwt.JwtTokenProvider;
 import com.kurbatov.todoapp.security.jwt.SignInRQ;
 import com.kurbatov.todoapp.security.jwt.SignUpRQ;
+import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -31,6 +36,12 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private ConfirmationTokenService confirmationTokenService;
+
     @Override
     public JwtAuthenticationResponse loginUser(SignInRQ signInRQ) {
         Authentication authentication = authenticationManager.authenticate(
@@ -45,6 +56,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public void registerUser(SignUpRQ signUpRQ) {
         if (userService.existsByUsername(signUpRQ.getUsername())) {
             throw new TodoAppException(ErrorType.USER_WITH_USERNAME_EXISTS, signUpRQ.getUsername());
@@ -61,11 +73,24 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(signUpRQ.getPassword()));
         user.setRole(Role.USER.getAuthority());
         user.setActive(true);
+        user.setEmailConfirmed(false);
 
         User savedUser = userService.saveUser(user);
 
         if (savedUser == null) {
             throw new TodoAppException(ErrorType.USER_ACCOUNT_WAS_NOT_CREATED);
         }
+
+        String token = UUID.randomUUID().toString();
+
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+        confirmationToken.setUser(user);
+        confirmationToken.setToken(token);
+        confirmationToken.setActive(true);
+        confirmationTokenService.save(confirmationToken);
+
+        String confirmationUrl = signUpRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
+        emailService.sendRegistrationConfirmationEmail(
+                "User registration confirmation", user.getEmail(), confirmationUrl);
     }
 }

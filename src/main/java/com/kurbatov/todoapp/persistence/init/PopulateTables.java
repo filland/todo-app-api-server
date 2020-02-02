@@ -41,6 +41,7 @@ public class PopulateTables {
                 user.setSurname("Doe");
                 user.setRole("ROLE_USER");
                 user.setActive(true);
+                user.setEmailConfirmed(true);
 
                 User saveUser = userService.saveUser(user);
 

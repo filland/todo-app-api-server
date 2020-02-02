@@ -4,18 +4,24 @@ CURRENT: - populate the exceptionMap responses to default Spring's exceptions
 
 TODO:
 
+- how to store passwords ? can i create a separate properties file just for sensitive info ?
+- create a separate table for emails and a quartz job for sending emails
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
+- Add swagger ?
 - Pageable for pagination (see PR dao project)
+- add permission for users with not confirmed emails
+registered user without confirmed email should have access to what kind of
+resources ? (maybe only to his own profile page?)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
-- registration via email. (Java mail api)
-- how to easily switch between local database creds ?
 - Write tests for the TodoService
 - Write tests for the UserService
 - converters for converting from entity to resource and back like in RP
 - cache for get requests (Hibernate second level cache?)
+- how to easily switch between local database creds ?
 - move to PostgresSQL server
 
 DONE:
+- username/email/password registration with email confirmation (4h)
 - refactor controllers and move all logic to services (1h)
 --how to not pass ResponseEntity from the service layer ???? - answer is to handle all exceptions in a separate place
 - custom exception handler to handle exceptions and translate them to HTTP status codes (16h)

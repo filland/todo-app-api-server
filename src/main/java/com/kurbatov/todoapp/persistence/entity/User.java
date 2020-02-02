@@ -48,6 +48,10 @@ public class User extends BaseEntity {
     @Column(name = "oauth2_provider")
     private AuthProvider provider;
 
+    @JsonIgnore
+    @Column(name = "emailConfirmed", nullable = false, columnDefinition = "tinyint default false")
+    private Boolean emailConfirmed;
+
     public User() {
     }
 
@@ -131,4 +135,13 @@ public class User extends BaseEntity {
     public void setProvider(AuthProvider provider) {
         this.provider = provider;
     }
+
+    public void setEmailConfirmed(Boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public Boolean getEmailConfirmed() {
+        return emailConfirmed;
+    }
+
 }

@@ -8,12 +8,17 @@ public enum ErrorType {
      * Incorrect TodoApp API Request
      */
     INCORRECT_REQUEST(4001, "Incorrect Request. {}"),
-    USER_WITH_EMAIL_EXISTS(4001, "User with the email {} already exists"),
-    USER_WITH_USERNAME_EXISTS(4002, "User with the username {} already exists"),
-    USER_ACCOUNT_WAS_NOT_CREATED(4003, "User account was not created"),
+    USER_WITH_EMAIL_EXISTS(4002, "User with the email {} already exists"),
+    USER_WITH_USERNAME_EXISTS(4003, "User with the username {} already exists"),
+    USER_ACCOUNT_WAS_NOT_CREATED(4004, "User account was not created"),
+    AUTH_OAUTH2_WRONG_AUTH_MECHANISM(4005, "You're signed up with {} account"),
+
     AUTH_OAUTH2_UNAUTHORIZED_REDIRECT(4011, "An unauthorized redirect URI"),
-    AUTH_OAUTH2_EMAIL_NOT_FOUND(4041, "Email not found from OAuth2 provider"),
-    AUTH_OAUTH2_WRONG_AUTH_MECHANISM(4004, "You're signed up with {} account"),
+
+    RESOURCE_NOT_FOUND(4041, " The {} resource not found"),
+    AUTH_OAUTH2_EMAIL_NOT_FOUND(4042, "Email not found from OAuth2 provider"),
+    CONFIRMATION_TOKEN_NOT_FOUND(4043, "Confirmation token not found"),
+
     AUTH_OAUTH2_PROVIDER_NOT_SUPPORTED(4051, "Login with {} is not supported yet");
 
     private int code;

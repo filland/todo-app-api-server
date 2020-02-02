@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 
-    @Query("from User where userID = :id and active = true")
+    @Query("from User where userID = :id AND active = true")
     @Override
     Optional<User> findById(Long id);
 

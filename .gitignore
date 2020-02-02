@@ -32,3 +32,5 @@ build/
 
 logs/**
 *.log
+
+**/todo-application.properties

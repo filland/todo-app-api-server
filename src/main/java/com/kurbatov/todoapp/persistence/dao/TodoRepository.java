@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 
     @Override
-    @Query("from Todo where todoID = :id")
+    @Query("from Todo where todoID = :id and active = true ")
     Optional<Todo> findById(Long id);
 }

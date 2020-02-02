@@ -10,6 +10,11 @@ import java.sql.Timestamp;
 @MappedSuperclass
 public abstract class BaseEntity implements Identifier {
 
+    /**
+     * This column is used for soft deleting the entity
+     * <p>
+     * If the value of this field is false it means that the entity was deleted
+     */
     @Column(name = "active", nullable = false, columnDefinition = "tinyint default true")
     private Boolean active;
 
