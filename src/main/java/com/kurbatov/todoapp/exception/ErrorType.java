@@ -15,11 +15,20 @@ public enum ErrorType {
 
     AUTH_OAUTH2_UNAUTHORIZED_REDIRECT(4011, "An unauthorized redirect URI"),
 
+    ACCESS_DENIED(4031, "You do not have enough permissions. {}"),
+    ADDRESS_LOCKED(4032, "Address is locked due to several incorrect login attempts"),
+
     RESOURCE_NOT_FOUND(4041, " The {} resource not found"),
     AUTH_OAUTH2_EMAIL_NOT_FOUND(4042, "Email not found from OAuth2 provider"),
     CONFIRMATION_TOKEN_NOT_FOUND(4043, "Confirmation token not found"),
 
-    AUTH_OAUTH2_PROVIDER_NOT_SUPPORTED(4051, "Login with {} is not supported yet");
+    AUTH_OAUTH2_PROVIDER_NOT_SUPPORTED(4051, "Login with {} is not supported yet"),
+
+    /**
+     * Use it If there are no any other exceptions. There should by no such
+     * exception
+     */
+    UNCLASSIFIED_ERROR(5001, "Unclassified error");
 
     private int code;
     private String description;

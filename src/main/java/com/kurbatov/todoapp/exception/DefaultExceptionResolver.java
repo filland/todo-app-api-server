@@ -23,7 +23,7 @@ public class DefaultExceptionResolver implements ExceptionResolver {
             throw new RuntimeException("handling of spring's exceptions is not implemented yet.");
         } else {
             return new RestExceptionBuilder()
-                    .setHttpStatus(HttpStatus.BAD_REQUEST)
+//                    .setHttpStatus(HttpStatus.BAD_REQUEST)
                     .setErrorMessage(ex.getMessage())
                     .setErrorType(ErrorType.INCORRECT_REQUEST)
                     .build();

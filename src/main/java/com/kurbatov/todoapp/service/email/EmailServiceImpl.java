@@ -20,8 +20,9 @@ import java.util.Map;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Value("${mail.from}")
-    private String mailFrom;
+    // it does not make sense because the FROM is always the same now
+//    @Value("${mail.from}")
+//    private String mailFrom;
 
     @Autowired
     private UserService userService;
@@ -44,7 +45,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "utf-8");
             message.setSubject(subject);
             message.setTo(recipient);
-            message.setFrom(mailFrom);
+//            message.setFrom(mailFrom);
 
             Map<String, String> params = new HashMap<>();
             params.put("confirmationLink", confirmationLink);

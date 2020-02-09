@@ -28,9 +28,13 @@ public class RestExceptionBuilder {
 
     public RestException build() {
         RestException restException = new RestException();
-        restException.setHttpStatus(httpStatus);
         restException.setErrorMessage(errorMessage);
-        restException.setErrorCode(errorType.getCode());
+        if (errorType != null) {
+            restException.setHttpStatus(errorType.getHttpStatus());
+            restException.setErrorCode(errorType.getCode());
+        } else {
+            restException.setHttpStatus(httpStatus);
+        }
         return restException;
     }
 

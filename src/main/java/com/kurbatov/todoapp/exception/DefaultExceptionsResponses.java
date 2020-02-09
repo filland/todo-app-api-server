@@ -1,7 +1,16 @@
 package com.kurbatov.todoapp.exception;
 
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.kurbatov.todoapp.util.StringUtils.formatMessage;
 
 public class DefaultExceptionsResponses {
 
@@ -9,19 +18,43 @@ public class DefaultExceptionsResponses {
 
     static {
         defaultExceptionsMapping = new HashMap<>();
-        // TODO populate the exceptionMap responses to default Spring's exceptions
 
-//        exceptionMap.put(HttpMessageNotReadableException.class,
-//                new RestErrorDefinition(400, ErrorType.INCORRECT_REQUEST));
-//        exceptionMap.put(MissingServletRequestPartException.class, new RestErrorDefinition<>(400, ErrorType.INCORRECT_REQUEST, DEFAULT_MESSAGE_BUILDER));
-//        exceptionMap.put(MissingServletRequestParameterException.class, new RestErrorDefinition<>(400, ErrorType.INCORRECT_REQUEST, DEFAULT_MESSAGE_BUILDER));
-//        exceptionMap.put(AccessDeniedException.class, new RestErrorDefinition<>(403, ErrorType.ACCESS_DENIED, DEFAULT_MESSAGE_BUILDER));
-//        exceptionMap.put(BadCredentialsException.class, new RestErrorDefinition<>(401, ErrorType.ACCESS_DENIED, DEFAULT_MESSAGE_BUILDER));
-//        exceptionMap.put(LockedException.class, new RestErrorDefinition<>(403, ErrorType.ADDRESS_LOCKED, DEFAULT_MESSAGE_BUILDER));
-//
-//        exceptionMap.put(RestClientException.class, new RestErrorDefinition<>(400, ErrorType.UNABLE_INTERACT_WITH_INTEGRATION, DEFAULT_MESSAGE_BUILDER));
-//
-//        exceptionMap.put(Throwable.class, new RestErrorDefinition<>(500, ErrorType.UNCLASSIFIED_ERROR, DEFAULT_MESSAGE_BUILDER));
+        defaultExceptionsMapping.put(
+                HttpMessageNotReadableException.class,
+                buildRestException(ErrorType.INCORRECT_REQUEST, "Http message is not readable"));
+
+        defaultExceptionsMapping.put(
+                MissingServletRequestPartException.class,
+                buildRestException(ErrorType.INCORRECT_REQUEST, "A request part is missing"));
+
+        defaultExceptionsMapping.put(
+                MissingServletRequestParameterException.class,
+                buildRestException(ErrorType.INCORRECT_REQUEST, "A request param is missing"));
+
+        defaultExceptionsMapping.put(
+                AccessDeniedException.class,
+                buildRestException(ErrorType.ACCESS_DENIED, null));
+
+        defaultExceptionsMapping.put(
+                BadCredentialsException.class,
+                buildRestException(ErrorType.ACCESS_DENIED, "Bad credentials"));
+
+        defaultExceptionsMapping.put(
+                LockedException.class,
+                buildRestException(ErrorType.ADDRESS_LOCKED, null));
+
+        defaultExceptionsMapping.put(
+                Throwable.class,
+                buildRestException(ErrorType.UNCLASSIFIED_ERROR, null));
+    }
+
+    private static RestException buildRestException(ErrorType errorType, String message) {
+        return new RestExceptionBuilder()
+                .setErrorMessage(message == null ?
+                        errorType.getDescription() :
+                        formatMessage(errorType.getDescription(), message))
+                .setErrorType(errorType)
+                .build();
     }
 
 }

@@ -29,7 +29,7 @@ public class TodoAppExceptionResolver implements ExceptionResolver {
             TodoAppException todoAppException = (TodoAppException) ex;
 
             return new RestExceptionBuilder()
-                    .setHttpStatus(todoAppException.getErrorType().getHttpStatus())
+//                    .setHttpStatus(todoAppException.getErrorType().getHttpStatus())
                     .setErrorMessage(todoAppException.getMessage())
                     .setErrorType(todoAppException.getErrorType())
                     .build();

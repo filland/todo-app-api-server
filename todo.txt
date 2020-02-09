@@ -1,10 +1,9 @@
 
 
-CURRENT: - populate the exceptionMap responses to default Spring's exceptions
+CURRENT:
 
 TODO:
 
-- how to store passwords ? can i create a separate properties file just for sensitive info ?
 - create a separate table for emails and a quartz job for sending emails
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Add swagger ?
@@ -21,6 +20,10 @@ resources ? (maybe only to his own profile page?)
 - move to PostgresSQL server
 
 DONE:
+- how to store passwords ? can i create a separate properties file just for sensitive info ?
+-- just do not commit files with properties
+- populate the exceptionMap responses to default Spring's exceptions (1h)
+-- only few exceptions were covered
 - username/email/password registration with email confirmation (4h)
 - refactor controllers and move all logic to services (1h)
 --how to not pass ResponseEntity from the service layer ???? - answer is to handle all exceptions in a separate place
