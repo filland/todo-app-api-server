@@ -10,11 +10,12 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+// TODO consider removing commented configs
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private ObjectMapper objectMapper;
 
     /**
      * CORS cannot be configured using CorsConfigurationSource
@@ -29,18 +30,18 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedMethods("POST", "GET", "PUT", "DELETE", "OPTION");
     }
 
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        return new MappingJackson2HttpMessageConverter(objectMapper);
-    }
-
-    @Bean
-    public JsonMapper jsonMapper() {
-        return new JsonMapper();
-    }
-
-    @Bean
-    public RestExceptionBuilder restExceptionBuilder() {
-        return new RestExceptionBuilder();
-    }
+//    @Bean
+//    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+//        return new MappingJackson2HttpMessageConverter(objectMapper);
+//    }
+//
+//    @Bean
+//    public JsonMapper jsonMapper() {
+//        return new JsonMapper();
+//    }
+//
+//    @Bean
+//    public RestExceptionBuilder restExceptionBuilder() {
+//        return new RestExceptionBuilder();
+//    }
 }
