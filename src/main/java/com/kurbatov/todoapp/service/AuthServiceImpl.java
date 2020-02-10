@@ -1,5 +1,6 @@
 package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.exception.TodoAppException;
 import com.kurbatov.todoapp.persistence.entity.ConfirmationToken;
@@ -92,5 +93,19 @@ public class AuthServiceImpl implements AuthService {
         String confirmationUrl = signUpRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
         emailService.sendRegistrationConfirmationEmail(
                 "User registration confirmation", user.getEmail(), confirmationUrl);
+    }
+
+    @Override
+    @Transactional
+    public void completeRegistration(CompleteRegistrationRQ completeRegistrationRQ) {
+        ConfirmationToken token = confirmationTokenService.findByToken(completeRegistrationRQ.getToken())
+                .orElseThrow(() -> new TodoAppException(ErrorType.CONFIRMATION_TOKEN_NOT_FOUND));
+        token.setActive(false);
+        confirmationTokenService.save(token);
+
+        User user = userService.findByEmail(token.getUser().getEmail())
+                .orElseThrow(() -> new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
+        user.setEmailConfirmed(true);
+        userService.saveUser(user);
     }
 }

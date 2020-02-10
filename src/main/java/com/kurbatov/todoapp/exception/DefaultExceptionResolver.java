@@ -1,6 +1,5 @@
 package com.kurbatov.todoapp.exception;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import static com.kurbatov.todoapp.exception.DefaultExceptionsResponses.defaultExceptionsMapping;
@@ -20,10 +19,9 @@ public class DefaultExceptionResolver implements ExceptionResolver {
 
         if (restException != null) {
 
-            throw new RuntimeException("handling of spring's exceptions is not implemented yet.");
+            return restException;
         } else {
             return new RestExceptionBuilder()
-//                    .setHttpStatus(HttpStatus.BAD_REQUEST)
                     .setErrorMessage(ex.getMessage())
                     .setErrorType(ErrorType.INCORRECT_REQUEST)
                     .build();
