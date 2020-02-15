@@ -20,14 +20,14 @@ public class ConfirmationToken extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "confirmationTokenID")
-    private Long confirmationTokenID;
+    @Column(name = "confirmationTokenId")
+    private Long confirmationTokenId;
 
     @Column(name = "token", nullable = false, unique = true)
     private String token;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userID")
+    @JoinColumn(name = "userId")
     private User user;
 
     public ConfirmationToken() {
@@ -35,15 +35,15 @@ public class ConfirmationToken extends BaseEntity {
 
     @Override
     public Long getId() {
-        return confirmationTokenID;
+        return confirmationTokenId;
     }
 
-    public Long getConfirmationTokenID() {
-        return confirmationTokenID;
+    public Long getConfirmationTokenId() {
+        return confirmationTokenId;
     }
 
-    public void setConfirmationTokenID(Long confirmationTokenID) {
-        this.confirmationTokenID = confirmationTokenID;
+    public void setConfirmationTokenId(Long confirmationTokenId) {
+        this.confirmationTokenId = confirmationTokenId;
     }
 
     public String getToken() {

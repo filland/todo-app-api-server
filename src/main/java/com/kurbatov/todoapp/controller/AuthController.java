@@ -2,10 +2,9 @@ package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
-import com.kurbatov.todoapp.security.jwt.SignInRQ;
-import com.kurbatov.todoapp.security.jwt.SignUpRQ;
+import com.kurbatov.todoapp.security.jwt.LoginRQ;
+import com.kurbatov.todoapp.security.jwt.RegisterRQ;
 import com.kurbatov.todoapp.service.AuthService;
-import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +25,14 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public JwtAuthenticationResponse login(@RequestBody SignInRQ signInRQ) {
-        return authService.loginUser(signInRQ);
+    public JwtAuthenticationResponse login(@RequestBody LoginRQ loginRQ) {
+        return authService.loginUser(loginRQ);
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody SignUpRQ signUpRQ) {
-        authService.registerUser(signUpRQ);
+    public void register(@RequestBody RegisterRQ registerRQ) {
+        authService.registerUser(registerRQ);
     }
 
     @PostMapping("/complete-registration")

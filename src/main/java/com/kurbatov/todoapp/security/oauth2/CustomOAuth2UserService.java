@@ -78,7 +78,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
-        user.setName(oAuth2UserInfo.getName());
+        user.setFirstName(oAuth2UserInfo.getName());
         user.setUsername((String) oAuth2UserInfo.getAttributes().get("login"));
         user.setEmail(oAuth2UserInfo.getEmail());
         user.setProvider(AuthProvider.toEnum(
@@ -90,7 +90,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
-        existingUser.setName(oAuth2UserInfo.getName());
+        existingUser.setFirstName(oAuth2UserInfo.getName());
         return userRepository.saveUser(existingUser);
     }
 

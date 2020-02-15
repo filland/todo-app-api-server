@@ -8,8 +8,8 @@ import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.Role;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.security.jwt.JwtTokenProvider;
-import com.kurbatov.todoapp.security.jwt.SignInRQ;
-import com.kurbatov.todoapp.security.jwt.SignUpRQ;
+import com.kurbatov.todoapp.security.jwt.LoginRQ;
+import com.kurbatov.todoapp.security.jwt.RegisterRQ;
 import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,12 +43,13 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
 
+    @Transactional
     @Override
-    public JwtAuthenticationResponse loginUser(SignInRQ signInRQ) {
+    public JwtAuthenticationResponse loginUser(LoginRQ loginRQ) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        signInRQ.getUsernameOrEmail(),
-                        signInRQ.getPassword()
+                        loginRQ.getUsernameOrEmail(),
+                        loginRQ.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -56,22 +57,22 @@ public class AuthServiceImpl implements AuthService {
         return new JwtAuthenticationResponse(jwt);
     }
 
-    @Override
     @Transactional
-    public void registerUser(SignUpRQ signUpRQ) {
-        if (userService.existsByUsername(signUpRQ.getUsername())) {
-            throw new TodoAppException(ErrorType.USER_WITH_USERNAME_EXISTS, signUpRQ.getUsername());
+    @Override
+    public void registerUser(RegisterRQ registerRQ) {
+        if (userService.existsByUsername(registerRQ.getUsername())) {
+            throw new TodoAppException(ErrorType.USER_WITH_USERNAME_EXISTS, registerRQ.getUsername());
         }
 
-        if (userService.existsByEmail(signUpRQ.getEmail())) {
-            throw new TodoAppException(ErrorType.USER_WITH_EMAIL_EXISTS, signUpRQ.getEmail());
+        if (userService.existsByEmail(registerRQ.getEmail())) {
+            throw new TodoAppException(ErrorType.USER_WITH_EMAIL_EXISTS, registerRQ.getEmail());
         }
 
         // Creating user's account
         User user = new User();
-        user.setUsername(signUpRQ.getUsername());
-        user.setEmail(signUpRQ.getEmail());
-        user.setPassword(passwordEncoder.encode(signUpRQ.getPassword()));
+        user.setUsername(registerRQ.getUsername());
+        user.setEmail(registerRQ.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRQ.getPassword()));
         user.setRole(Role.USER.getAuthority());
         user.setActive(true);
         user.setEmailConfirmed(false);
@@ -90,13 +91,13 @@ public class AuthServiceImpl implements AuthService {
         confirmationToken.setActive(true);
         confirmationTokenService.save(confirmationToken);
 
-        String confirmationUrl = signUpRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
+        String confirmationUrl = registerRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
         emailService.sendRegistrationConfirmationEmail(
                 "User registration confirmation", user.getEmail(), confirmationUrl);
     }
 
-    @Override
     @Transactional
+    @Override
     public void completeRegistration(CompleteRegistrationRQ completeRegistrationRQ) {
         ConfirmationToken token = confirmationTokenService.findByToken(completeRegistrationRQ.getToken())
                 .orElseThrow(() -> new TodoAppException(ErrorType.CONFIRMATION_TOKEN_NOT_FOUND));

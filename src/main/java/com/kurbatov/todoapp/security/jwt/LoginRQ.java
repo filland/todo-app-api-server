@@ -2,7 +2,7 @@ package com.kurbatov.todoapp.security.jwt;
 
 import javax.validation.constraints.NotBlank;
 
-public class SignInRQ {
+public class LoginRQ {
 
     @NotBlank
     private String usernameOrEmail;

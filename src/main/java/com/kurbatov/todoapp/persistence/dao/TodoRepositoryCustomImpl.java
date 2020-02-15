@@ -16,15 +16,15 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<Todo> findSeveral(int page, int limit, Long userID) {
+    public List<Todo> findSeveral(int page, int limit, Long userId) {
         Query q = entityManager.createQuery(
-                "FROM Todo WHERE active = true AND ownerid = :userID ORDER BY todoID DESC"
+                "FROM Todo WHERE active = true AND owner_id = :userId ORDER BY todoId DESC"
         );
         q.setFirstResult(calculateOffset(page, limit));
         q.setMaxResults(limit);
         User user = new User();
-        user.setUserID(userID);
-        q.setParameter("userID", user);
+        user.setUserId(userId);
+        q.setParameter("userId", user);
         return q.getResultList();
     }
 

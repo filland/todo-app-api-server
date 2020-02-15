@@ -34,11 +34,11 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    @GetMapping("/{todoID}")
+    @GetMapping("/{todoId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(TODO_OWNER)
-    public Todo findTodo(@PathVariable Long todoID) {
-        return todoService.find(todoID);
+    public Todo findTodo(@PathVariable Long todoId) {
+        return todoService.find(todoId);
     }
 
     @GetMapping
@@ -46,7 +46,7 @@ public class TodoController {
     public List<Todo> findSeveral(@RequestParam("page") Integer page,
                                   @RequestParam("limit") Integer limit,
                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return todoService.findSeveral(page, limit, userDetails.getUserID());
+        return todoService.findSeveral(page, limit, userDetails.getUserId());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,19 +57,19 @@ public class TodoController {
         return todoService.save(todo, userDetails);
     }
 
-    @PutMapping(value = "/{todoID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{todoId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(TODO_OWNER)
-    public Todo updateTodo(@RequestBody Todo todo, @PathVariable Long todoID,
+    public Todo updateTodo(@RequestBody Todo todo, @PathVariable Long todoId,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
         return todoService.update(todo, userDetails);
     }
 
-    @DeleteMapping("/{todoID}")
+    @DeleteMapping("/{todoId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(TODO_OWNER)
-    public void removeTodo(@PathVariable("todoID") Long todoID) {
-        todoService.delete(todoID);
+    public void removeTodo(@PathVariable("todoId") Long todoId) {
+        todoService.delete(todoId);
     }
 
 }

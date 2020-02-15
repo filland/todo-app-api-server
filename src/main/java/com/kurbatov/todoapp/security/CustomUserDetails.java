@@ -70,8 +70,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         return user.isActive();
     }
 
-    public Long getUserID () {
-        return user.getUserID();
+    public Long getUserId() {
+        return user.getUserId();
     }
 
     public String getUserEmail() {
@@ -80,6 +80,6 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return String.valueOf(getUserID());
+        return String.valueOf(getUserId());
     }
 }

@@ -20,14 +20,14 @@ public class User extends BaseEntity {
     @JsonProperty("id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userID")
-    private Long userID;
+    @Column(name = "userId")
+    private Long userId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "lastName")
+    private String lastName;
 
     @Column(name = "username")
     private String username;
@@ -55,8 +55,8 @@ public class User extends BaseEntity {
     public User() {
     }
 
-    public User(Long userID) {
-        this.userID = userID;
+    public User(Long userId) {
+        this.userId = userId;
     }
 
     public User(String username, String email, String password, String role) {
@@ -69,31 +69,31 @@ public class User extends BaseEntity {
     @JsonIgnore
     @Override
     public Long getId() {
-        return userID;
+        return userId;
     }
 
-    public Long getUserID() {
-        return userID;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {

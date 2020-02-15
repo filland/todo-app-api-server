@@ -23,16 +23,16 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Long save(Todo todo) {
-        return todoRepository.save(todo).getTodoID();
+        return todoRepository.save(todo).getTodoId();
     }
 
     @Override
     public Long save(Todo todo, UserDetails userDetails) {
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
-        todo.setOwner(new User(customUserDetails.getUserID()));
+        todo.setOwner(new User(customUserDetails.getUserId()));
         todo.setActive(true);
         Todo save = todoRepository.save(todo);
-        return save.getTodoID();
+        return save.getTodoId();
     }
 
     @Override
@@ -43,19 +43,19 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public Todo update(Todo todo, UserDetails userDetails) {
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
-        todo.setOwner(new User(customUserDetails.getUserID()));
+        todo.setOwner(new User(customUserDetails.getUserId()));
         return todoRepository.save(todo);
     }
 
     @Override
-    public void delete(long todoID) {
-        Todo todo = this.find(todoID);
+    public void delete(long todoId) {
+        Todo todo = this.find(todoId);
         todo.setActive(false);
         todoRepository.save(todo);
     }
 
     @Override
-    public List<Todo> findSeveral(int page, int limit, Long userID) {
-        return todoRepository.findSeveral(page, limit, userID);
+    public List<Todo> findSeveral(int page, int limit, Long userId) {
+        return todoRepository.findSeveral(page, limit, userId);
     }
 }

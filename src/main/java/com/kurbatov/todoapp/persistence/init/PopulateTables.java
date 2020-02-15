@@ -37,8 +37,8 @@ public class PopulateTables {
                 user.setUsername("user");
                 user.setEmail("dddd@asdf.com");
                 user.setPassword("$2a$10$Es6k9yWE9a0HoYYQ.ivwWuwA3IYJfi.Ryy/oQCuNVYSdmnIAoKVNS");
-                user.setName("John");
-                user.setSurname("Doe");
+                user.setFirstName("John");
+                user.setLastName("Doe");
                 user.setRole("ROLE_USER");
                 user.setActive(true);
                 user.setEmailConfirmed(true);

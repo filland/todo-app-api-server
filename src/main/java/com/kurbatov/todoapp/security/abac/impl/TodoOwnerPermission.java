@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import static com.kurbatov.todoapp.security.abac.AppPermission.TODO_OWNER_PERMISSION_NAME;
 
+/**
+ * User can perform CRUD operations only on his/her own todos
+ */
 @Component
 @LookupPermission(TODO_OWNER_PERMISSION_NAME)
 public class TodoOwnerPermission implements Permission {
@@ -19,16 +22,16 @@ public class TodoOwnerPermission implements Permission {
     private TodoService todoService;
 
     @Override
-    public boolean isAllowed(Authentication authentication, Object todoID) {
+    public boolean isAllowed(Authentication authentication, Object todoId) {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        Todo dbTodo = todoService.find((Long) todoID);
+        Todo dbTodo = todoService.find((Long) todoId);
 
         if (dbTodo == null) {
             return false;
         }
 
-        return userDetails.getUserID().equals(dbTodo.getOwner().getUserID());
+        return userDetails.getUserId().equals(dbTodo.getOwner().getUserId());
     }
 }

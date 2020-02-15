@@ -1,16 +1,16 @@
 
 
-CURRENT:
+CURRENT: implement userUpdate endpoint
 
 TODO:
 
+- users who not confirmed emails can only read user info (/users/me)
+-- just add another permission for the getUser method
+- deploy the server using jenkins
 - create a separate table for emails and a quartz job for sending emails
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Add swagger ?
 - Pageable for pagination (see PR dao project)
-- add permission for users with not confirmed emails
-registered user without confirmed email should have access to what kind of
-resources ? (maybe only to his own profile page?)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - Write tests for the TodoService
 - Write tests for the UserService
@@ -19,7 +19,21 @@ resources ? (maybe only to his own profile page?)
 - how to easily switch between local database creds ?
 - move to PostgresSQL server
 
+
+
 DONE:
+- Write down possible permissions required for the app (right now and in future)
+     --Apparently there will be a lot of security levels (registered users, registered but
+     not confirmed emails)
+     -- What if i will need to add some more permissions or detail existing
+     -- The solution should be flexible and easy to use (what if i will store permission in DB
+     and will add them to the JWT token and read them from the token after that (not from the db)) ?
+    Required permissions:
+        1. TODO_OWNER
+        2. USER_OWNER
+        3. ADMIN (in the future)
+    I did not try to make the permission list flexible because this app does not need this.
+    If I will need to implement a flexible permission list it would require storing roles in the db
 - how to store passwords ? can i create a separate properties file just for sensitive info ?
 -- just do not commit files with properties
 - populate the exceptionMap responses to default Spring's exceptions (1h)

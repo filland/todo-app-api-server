@@ -46,6 +46,8 @@ public class DefaultExceptionsResponses {
         defaultExceptionsMapping.put(
                 Throwable.class,
                 buildRestException(ErrorType.UNCLASSIFIED_ERROR, null));
+
+
     }
 
     private static RestException buildRestException(ErrorType errorType, String message) {

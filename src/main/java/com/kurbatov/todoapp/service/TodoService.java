@@ -18,7 +18,7 @@ public interface TodoService {
 
     Todo update(Todo todo, UserDetails userDetails);
 
-    void delete(long todoID);
+    void delete(long todoId);
 
-    List findSeveral(int page, int limit, Long userID);
+    List findSeveral(int page, int limit, Long userId);
 }

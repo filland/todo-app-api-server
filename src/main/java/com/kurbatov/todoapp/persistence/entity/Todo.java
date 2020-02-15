@@ -19,9 +19,9 @@ public class Todo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "todoID")
+    @Column(name = "todoId")
     @JsonProperty("id")
-    private Long todoID;
+    private Long todoId;
 
     @Column(name = "title")
     private String title;
@@ -34,7 +34,7 @@ public class Todo extends BaseEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ownerID")
+    @JoinColumn(name = "ownerId")
     private User owner;
 
     public Todo() {
@@ -49,15 +49,15 @@ public class Todo extends BaseEntity {
     @JsonIgnore
     @Override
     public Long getId() {
-        return todoID;
+        return todoId;
     }
 
-    public Long getTodoID() {
-        return todoID;
+    public Long getTodoId() {
+        return todoId;
     }
 
-    public void setTodoID(Long todoID) {
-        this.todoID = todoID;
+    public void setTodoId(Long todoId) {
+        this.todoId = todoId;
     }
 
     public String getTitle() {
@@ -95,7 +95,7 @@ public class Todo extends BaseEntity {
     @Override
     public String toString() {
         return "Todo{" +
-                "todoID=" + todoID +
+                "todoId=" + todoId +
                 ", title='" + title + '\'' +
                 '}';
     }

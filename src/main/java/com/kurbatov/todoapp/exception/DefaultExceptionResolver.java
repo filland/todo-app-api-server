@@ -22,7 +22,7 @@ public class DefaultExceptionResolver implements ExceptionResolver {
             return restException;
         } else {
             return new RestExceptionBuilder()
-                    .setErrorMessage(ex.getMessage())
+//                    .setErrorMessage(ex.getMessage())
                     .setErrorType(ErrorType.INCORRECT_REQUEST)
                     .build();
         }
