@@ -1,6 +1,7 @@
 package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.RegisterRS;
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.exception.TodoAppException;
 import com.kurbatov.todoapp.persistence.entity.ConfirmationToken;
@@ -8,8 +9,8 @@ import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.Role;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.security.jwt.JwtTokenProvider;
-import com.kurbatov.todoapp.security.jwt.LoginRQ;
-import com.kurbatov.todoapp.security.jwt.RegisterRQ;
+import com.kurbatov.todoapp.dto.LoginRQ;
+import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,7 +49,7 @@ public class AuthServiceImpl implements AuthService {
     public JwtAuthenticationResponse loginUser(LoginRQ loginRQ) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRQ.getUsernameOrEmail(),
+                        loginRQ.getUsername(),
                         loginRQ.getPassword()
                 )
         );
@@ -59,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void registerUser(RegisterRQ registerRQ) {
+    public RegisterRS registerUser(RegisterRQ registerRQ) {
         if (userService.existsByUsername(registerRQ.getUsername())) {
             throw new TodoAppException(ErrorType.USER_WITH_USERNAME_EXISTS, registerRQ.getUsername());
         }
@@ -94,6 +95,10 @@ public class AuthServiceImpl implements AuthService {
         String confirmationUrl = registerRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
         emailService.sendRegistrationConfirmationEmail(
                 "User registration confirmation", user.getEmail(), confirmationUrl);
+
+        RegisterRS registerRS = new RegisterRS();
+        registerRS.setId(user.getId());
+        return registerRS;
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package com.kurbatov.todoapp.controller;
 
+import com.kurbatov.todoapp.dto.UpdateUserRQ;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.service.UserService;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 import static com.kurbatov.todoapp.security.abac.AppPermission.USER_OWNER;
 
@@ -36,13 +39,13 @@ public class UserController {
         return user;
     }
 
-    // TODO does not work
     @PostMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(USER_OWNER)
-    public User updateUser(@PathVariable Long userId, @RequestBody User user,
+    public User updateUser(@PathVariable Long userId,
+                           @Valid @RequestBody UpdateUserRQ user,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return userService.saveUser(user);
+        return userService.updateUser(user, userDetails);
     }
 
     @GetMapping("/check-username")
@@ -52,10 +55,9 @@ public class UserController {
 
         // the username already used
         if (usernameExists) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        // the provided username not used
         return ResponseEntity.ok().build();
     }
 
@@ -66,10 +68,9 @@ public class UserController {
 
         // the email already used
         if (emailExists) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        // the provided email not used
         return ResponseEntity.ok().build();
     }
 }

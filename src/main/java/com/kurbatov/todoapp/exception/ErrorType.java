@@ -12,6 +12,7 @@ public enum ErrorType {
     USER_WITH_USERNAME_EXISTS(4003, "User with the username {} already exists"),
     USER_ACCOUNT_WAS_NOT_CREATED(4004, "User account was not created"),
     AUTH_OAUTH2_WRONG_AUTH_MECHANISM(4005, "You're signed up with {} account"),
+    INVALID_INFORMATION(4006, "The request contained invalid fields"),
 
     AUTH_OAUTH2_UNAUTHORIZED_REDIRECT(4011, "An unauthorized redirect URI"),
 

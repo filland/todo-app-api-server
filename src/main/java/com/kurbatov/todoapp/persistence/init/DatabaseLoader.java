@@ -7,9 +7,9 @@ import com.kurbatov.todoapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 /**
@@ -17,9 +17,9 @@ import java.util.Optional;
  * initial data for testing purposes
  */
 @Component
-public class PopulateTables {
+public class DatabaseLoader implements CommandLineRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PopulateTables.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseLoader.class);
 
     @Autowired
     private UserService userService;
@@ -27,8 +27,8 @@ public class PopulateTables {
     @Autowired
     private TodoService todoService;
 
-    @PostConstruct
-    public void populate() {
+    @Override
+    public void run(String... args) throws Exception {
         try {
             Optional<User> test = userService.findById(1L);
             if (!test.isPresent()) {
@@ -74,6 +74,5 @@ public class PopulateTables {
         } catch (Throwable e) {
             LOGGER.error("Not managed to populate tables with init data", e);
         }
-
     }
 }

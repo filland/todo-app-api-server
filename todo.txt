@@ -1,9 +1,10 @@
 
 
-CURRENT: implement userUpdate endpoint
+CURRENT:
 
 TODO:
 
+-
 - users who not confirmed emails can only read user info (/users/me)
 -- just add another permission for the getUser method
 - deploy the server using jenkins
@@ -17,11 +18,18 @@ TODO:
 - converters for converting from entity to resource and back like in RP
 - cache for get requests (Hibernate second level cache?)
 - how to easily switch between local database creds ?
+- replace gmail smtp server
+
+OTHER:
 - move to PostgresSQL server
-
-
+- return html page when GET this url http://localhost:8080/error
 
 DONE:
+- implement userUpdate endpoint
+-- validation for RQ (using hiber validation) and response with all errors to display on UI
+- login validation
+- registration validation
+- user info update validation
 - Write down possible permissions required for the app (right now and in future)
      --Apparently there will be a lot of security levels (registered users, registered but
      not confirmed emails)

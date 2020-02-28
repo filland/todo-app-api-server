@@ -1,8 +1,13 @@
 package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.dto.UpdateUserRQ;
+import com.kurbatov.todoapp.exception.ErrorType;
+import com.kurbatov.todoapp.exception.TodoAppException;
 import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.User;
+import com.kurbatov.todoapp.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +21,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public User updateUser(UpdateUserRQ updateUserRQ, UserDetails userDetails) {
+
+        CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+        User user = this.findById(customUserDetails.getUserId())
+                .orElseThrow(() ->  new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
+
+        user.setUsername(updateUserRQ.getUsername());
+        user.setFirstName(updateUserRQ.getFirstName());
+        user.setLastName(updateUserRQ.getLastName());
+        user.setEmail(updateUserRQ.getEmail());
+
+        return this.saveUser(user);
     }
 
     @Override

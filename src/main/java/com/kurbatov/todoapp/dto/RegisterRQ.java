@@ -1,7 +1,8 @@
-package com.kurbatov.todoapp.security.jwt;
+package com.kurbatov.todoapp.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class RegisterRQ {
@@ -9,15 +10,17 @@ public class RegisterRQ {
     private String name;
 
     @NotBlank
-    @Size(min = 5, max = 15)
+    @Pattern(regexp = "[a-zA-Z0-9_.]+")
+    @Size(min = 5, max = 30)
     private String username;
 
     @NotBlank
-    @Size(max = 40)
     @Email
+    @Pattern(regexp = "[a-zA-Z0-9_.]{3,100}@[a-zA-Z0-9_.]{2,30}.[a-zA-Z0-9_.]{2,7}")
     private String email;
 
     @NotBlank
+    @Pattern(regexp = "[a-zA-Z0-9!_]+")
     @Size(min = 6, max = 20)
     private String password;
 
@@ -26,6 +29,7 @@ public class RegisterRQ {
      * The url that should be used in the email for confirmation
      * email and completing the registration
      */
+    @NotBlank
     private String emailConfirmationBrowserUrl;
 
     public String getName() {

@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 import java.util.function.Supplier;
 
 /**
+ * TODO Can be replaced with Spring *Aware interfaces or other spring thing ?
  * {@link FactoryBean} with access to {@link ApplicationContext} with lazy
  * initialization
  *

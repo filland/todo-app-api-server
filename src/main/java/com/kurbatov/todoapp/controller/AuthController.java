@@ -1,9 +1,10 @@
 package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.RegisterRS;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
-import com.kurbatov.todoapp.security.jwt.LoginRQ;
-import com.kurbatov.todoapp.security.jwt.RegisterRQ;
+import com.kurbatov.todoapp.dto.LoginRQ;
+import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
  * Handles authentication using username/password
@@ -25,14 +28,14 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public JwtAuthenticationResponse login(@RequestBody LoginRQ loginRQ) {
+    public JwtAuthenticationResponse login(@Valid @RequestBody LoginRQ loginRQ) {
         return authService.loginUser(loginRQ);
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody RegisterRQ registerRQ) {
-        authService.registerUser(registerRQ);
+    public RegisterRS register(@Valid @RequestBody RegisterRQ registerRQ) {
+        return authService.registerUser(registerRQ);
     }
 
     @PostMapping("/complete-registration")

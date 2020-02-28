@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RestException implements Serializable {
 
     @JsonProperty("status")
