@@ -26,7 +26,7 @@ public class Todo extends BaseEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "done", nullable = false, columnDefinition = "tinyint default false")

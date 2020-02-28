@@ -61,14 +61,22 @@ public class DatabaseLoader implements CommandLineRunner {
 
                 Todo todo3 = new Todo();
                 todo3.setTitle("Just get this thing done!");
-                todo3.setDescription("no excuse. done or failed");
+                todo3.setDescription("no excuses. done or failed");
                 todo3.setOwner(saveUser);
                 todo3.setActive(true);
                 todo3.setDone(false);
 
+                Todo todo4 = new Todo();
+                todo4.setTitle("Some title");
+                todo4.setDescription("Lorem ipsum dolor sit amet, pri iudico percipit et, purto eruditi deleniti pri in. Ad his paulo civibus, sed te aeque prodesset, qui cu affert aperiam. Mea discere reformidans no, rebum nonumy nostro mel ut. Sumo mollis democritum per eu, duo ex forensibus delicatissimi. Eu has altera admodum albucius, feugiat deserunt incorrupte eum ei, eos id pertinacia mediocritatem. Et per alterum laoreet corpora, pro eu sumo explicari maluisset.");
+                todo4.setOwner(saveUser);
+                todo4.setDone(false);
+                todo4.setActive(true);
+
                 todoService.save(todo);
                 todoService.save(todo2);
                 todoService.save(todo3);
+                todoService.save(todo4);
             }
 
         } catch (Throwable e) {
