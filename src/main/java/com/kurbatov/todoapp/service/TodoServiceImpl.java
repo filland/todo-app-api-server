@@ -48,6 +48,13 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
+    public void markTodoAsDone(Long todoId) {
+        Todo todo = find(todoId);
+        todo.setDone(true);
+        save(todo);
+    }
+
+    @Override
     public void delete(long todoId) {
         Todo todo = this.find(todoId);
         todo.setActive(false);

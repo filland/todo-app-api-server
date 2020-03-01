@@ -65,6 +65,14 @@ public class TodoController {
         return todoService.update(todo, userDetails);
     }
 
+    @PutMapping(value = "/{todoId}/done")
+    @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize((TODO_OWNER))
+    public void markTodoAsDone(@PathVariable Long todoId,
+                                @AuthenticationPrincipal CustomUserDetails userDetails) {
+        todoService.markTodoAsDone(todoId);
+    }
+
     @DeleteMapping("/{todoId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(TODO_OWNER)

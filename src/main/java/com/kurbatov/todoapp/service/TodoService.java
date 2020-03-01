@@ -18,6 +18,8 @@ public interface TodoService {
 
     Todo update(Todo todo, UserDetails userDetails);
 
+    void markTodoAsDone(Long todoId);
+
     void delete(long todoId);
 
     List findSeveral(int page, int limit, Long userId);

@@ -25,6 +25,7 @@ OTHER:
 - return html page when GET this url http://localhost:8080/error
 
 DONE:
+- implement mark _todo as done endpoint
 - implement userUpdate endpoint
 -- validation for RQ (using hiber validation) and response with all errors to display on UI
 - login validation
