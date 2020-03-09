@@ -1,17 +1,15 @@
 
 
-CURRENT:
+CURRENT: - Pageable for pagination (see PR dao project)
 
 TODO:
 
--
 - users who not confirmed emails can only read user info (/users/me)
 -- just add another permission for the getUser method
 - deploy the server using jenkins
 - create a separate table for emails and a quartz job for sending emails
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Add swagger ?
-- Pageable for pagination (see PR dao project)
 - add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - Write tests for the TodoService
 - Write tests for the UserService
@@ -19,6 +17,8 @@ TODO:
 - cache for get requests (Hibernate second level cache?)
 - how to easily switch between local database creds ?
 - replace gmail smtp server
+- handle case when user loging in using GitHub and has the same email as the user registered
+via registration form
 
 OTHER:
 - move to PostgresSQL server
@@ -42,7 +42,7 @@ DONE:
         2. USER_OWNER
         3. ADMIN (in the future)
     I did not try to make the permission list flexible because this app does not need this.
-    If I will need to implement a flexible permission list it would require storing roles in the db
+    If I needed to implement a flexible permission list it would require storing roles in the db
 - how to store passwords ? can i create a separate properties file just for sensitive info ?
 -- just do not commit files with properties
 - populate the exceptionMap responses to default Spring's exceptions (1h)

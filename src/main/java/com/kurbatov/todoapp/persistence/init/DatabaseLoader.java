@@ -34,7 +34,7 @@ public class DatabaseLoader implements CommandLineRunner {
             if (!test.isPresent()) {
 
                 User user = new User();
-                user.setUsername("user");
+                user.setUsername("user1");
                 user.setEmail("dddd@asdf.com");
                 user.setPassword("$2a$10$Es6k9yWE9a0HoYYQ.ivwWuwA3IYJfi.Ryy/oQCuNVYSdmnIAoKVNS");
                 user.setFirstName("John");
