@@ -1,30 +1,29 @@
 
 
-CURRENT: - Pageable for pagination (see PR dao project)
+CURRENT:
 
 TODO:
 
+- add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
+- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
+- create a separate table for emails and a quartz job for sending emails
+- replace gmail smtp server (use a free layer of a smtp server provider)
 - users who not confirmed emails can only read user info (/users/me)
 -- just add another permission for the getUser method
 - deploy the server using jenkins
-- create a separate table for emails and a quartz job for sending emails
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
 - Add swagger ?
-- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - Write tests for the TodoService
 - Write tests for the UserService
 - converters for converting from entity to resource and back like in RP
 - cache for get requests (Hibernate second level cache?)
-- how to easily switch between local database creds ?
-- replace gmail smtp server
 - handle case when user loging in using GitHub and has the same email as the user registered
 via registration form
+- implement Sorting for todos
 
-OTHER:
-- move to PostgresSQL server
-- return html page when GET this url http://localhost:8080/error
 
 DONE:
+- Pageable for the todo_ endpoint
 - implement mark _todo as done endpoint
 - implement userUpdate endpoint
 -- validation for RQ (using hiber validation) and response with all errors to display on UI
@@ -65,3 +64,9 @@ so I guess follow the KISS principle
 - find docs and tutorials on how to login using REST
 - Implement basic authentication
 - replace my own filter for CORS with a config provided from Spring
+
+
+OTHER:
+- how to easily switch between local database creds ?
+- move to PostgresSQL server
+- return html page when GET this url http://localhost:8080/error

@@ -1,7 +1,8 @@
 package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.dto.common.PageableRS;
 import com.kurbatov.todoapp.persistence.entity.Todo;
-import com.kurbatov.todoapp.security.CustomUserDetails;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface TodoService {
     void delete(long todoId);
 
     List findSeveral(int page, int limit, Long userId);
+
+    PageableRS<Todo> findSeveral(Long userId, Pageable pageable);
 }

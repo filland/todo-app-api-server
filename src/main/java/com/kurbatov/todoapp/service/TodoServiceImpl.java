@@ -1,10 +1,13 @@
 package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.dto.common.PageableRS;
 import com.kurbatov.todoapp.persistence.dao.TodoRepository;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -65,4 +68,20 @@ public class TodoServiceImpl implements TodoService {
     public List<Todo> findSeveral(int page, int limit, Long userId) {
         return todoRepository.findSeveral(page, limit, userId);
     }
+
+    @Override
+    public PageableRS<Todo> findSeveral(Long userId, Pageable pageable) {
+
+        Page<Todo> todosPage = todoRepository.findAllByOwnerAndActive(new User(userId), true, pageable);
+
+        PageableRS<Todo> todoPageableRS = new PageableRS<>();
+        todoPageableRS.setList(todosPage.getContent());
+        todoPageableRS.setTotalPages(todosPage.getTotalPages());
+        todoPageableRS.setPage(pageable.getPageNumber());
+        todoPageableRS.setSize(pageable.getPageSize());
+
+        return todoPageableRS;
+    }
+
+
 }
