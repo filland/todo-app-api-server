@@ -10,8 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "todo")
@@ -36,6 +39,15 @@ public class Todo extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ownerId")
     private User owner;
+
+    @JsonProperty("tags")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "todo_tag",
+            joinColumns = {@JoinColumn(name = "todoId")},
+            inverseJoinColumns = {@JoinColumn(name = "tagId")}
+    )
+    private List<Tag> tags;
 
     public Todo() {
     }
@@ -90,6 +102,14 @@ public class Todo extends BaseEntity {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     @Override

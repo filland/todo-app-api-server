@@ -1,28 +1,33 @@
 
 
 CURRENT:
+- add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
 
 TODO:
 
-- add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
-- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
+- Write tests for the TodoService
+- Write tests for the TodoController
+- Write tests for the UserService
+- Write tests for the UserController
+- Write tests for the TagService
+- Write tests for the TagController
+- cache for get requests (Hibernate second level cache?)
 - create a separate table for emails and a quartz job for sending emails
-- replace gmail smtp server (use a free layer of a smtp server provider)
 - users who not confirmed emails can only read user info (/users/me)
 -- just add another permission for the getUser method
-- deploy the server using jenkins
 - https://spring.io/guides/tutorials/react-and-spring-data-rest/
-- Add swagger ?
-- Write tests for the TodoService
-- Write tests for the UserService
+- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
 - converters for converting from entity to resource and back like in RP
-- cache for get requests (Hibernate second level cache?)
 - handle case when user loging in using GitHub and has the same email as the user registered
 via registration form
 - implement Sorting for todos
+- replace gmail smtp server (use a free layer of a smtp server provider)
+- deploy the server using jenkins
+- Add swagger ?
 
 
 DONE:
+- add Tag owner permission
 - Pageable for the todo_ endpoint
 - implement mark _todo as done endpoint
 - implement userUpdate endpoint

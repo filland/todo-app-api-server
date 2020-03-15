@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TodoRepositoryCustom {
 
-    List<Todo> findSeveral(int page, int limit, Long userId);
+    List<Todo> findSeveral(Integer page, Integer limit, Long userId);
 }

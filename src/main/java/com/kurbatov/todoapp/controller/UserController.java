@@ -45,7 +45,7 @@ public class UserController {
     public User updateUser(@PathVariable Long userId,
                            @Valid @RequestBody UpdateUserRQ user,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return userService.updateUser(user, userDetails);
+        return userService.updateUser(userId, user, userDetails);
     }
 
     @GetMapping("/check-username")

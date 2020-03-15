@@ -10,11 +10,11 @@ public interface UserService {
 
     User saveUser(User user);
 
-    User updateUser(UpdateUserRQ updateUserRQ, UserDetails userDetails);
+    User updateUser(Long userId, UpdateUserRQ updateUserRQ, UserDetails userDetails);
 
-    Optional<User> findByUsername(String username);
+    User findByUsername(String username);
 
-    Optional<User> findById(Long userId);
+    User findById(Long userId);
 
     Optional<User> findByEmail(String email);
 

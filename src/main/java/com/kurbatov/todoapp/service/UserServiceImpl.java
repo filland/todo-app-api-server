@@ -24,11 +24,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUser(UpdateUserRQ updateUserRQ, UserDetails userDetails) {
+    public User updateUser(Long userId, UpdateUserRQ updateUserRQ, UserDetails userDetails) {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
-        User user = this.findById(customUserDetails.getUserId())
-                .orElseThrow(() ->  new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
+        User user = this.findById(customUserDetails.getUserId());
 
         user.setUsername(updateUserRQ.getUsername());
         user.setFirstName(updateUserRQ.getFirstName());
@@ -39,13 +38,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
-        return userRepository.findById(userId);
+    public User findById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
     }
 
     @Override

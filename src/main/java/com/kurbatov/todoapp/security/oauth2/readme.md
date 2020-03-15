@@ -1,6 +1,6 @@
 #### The process of authentication using OAuth2 explained using Github
 
-1.User makes a GET request to the this server to start authentication using GitHub and provides an redirect url that will be used at the end of the process (when the server has to provide a JWT token)
+1.User makes a GET request to the server to start authentication using GitHub and provides a redirect url that will be used at the end of the process (when the server has to provide a JWT token). The redirect_uri is stored in cookies until it is used at the 6 step and then deleted
 ```
 http://localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect
 ```
@@ -22,7 +22,7 @@ https://github.com/login/oauth/access_token?code=TEMPORARY_CODE&client_id=CLIENT
 
 5.When the server receives an access token issued by Github the server makes a request to get some info about the user (user's email) and registers this user in the application. Then the server issues a JWT token
 
-6.The JWT token is sent to the frontend via a redirect using the redirect url provided in the step 1
+6.The JWT token is sent to the frontend via a redirect using the redirect url provided in the step 1. The redirect url is retrieved from cookies. After reading it is deleted from cookies.
 ```
 http://localhost:3000/oauth2/redirect?token=JWT_TOKEN
 ```

@@ -10,5 +10,7 @@ public final class AppPermission {
     public static final String USER_OWNER =
             "hasPermission(#userId, '"+ USER_OWNER_PERMISSION_NAME +"')";
 
-
+    public static final String TAG_OWNER_PERMISSION_NAME = "tagOwnerPermission";
+    public static final String TAG_OWNER =
+            "hasPermission(#tagId, '"+ TAG_OWNER_PERMISSION_NAME +"')";
 }

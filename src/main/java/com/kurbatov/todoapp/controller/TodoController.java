@@ -1,6 +1,7 @@
 package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.dto.common.PageableRS;
+import com.kurbatov.todoapp.persistence.entity.Tag;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.service.TodoService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.kurbatov.todoapp.security.abac.AppPermission.TAG_OWNER;
 import static com.kurbatov.todoapp.security.abac.AppPermission.TODO_OWNER;
 
 @RestController
@@ -51,7 +53,7 @@ public class TodoController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Long saveTodo(@RequestBody Todo todo,
+    public Todo saveTodo(@RequestBody Todo todo,
                          @AuthenticationPrincipal CustomUserDetails userDetails) {
         return todoService.save(todo, userDetails);
     }
@@ -61,7 +63,7 @@ public class TodoController {
     @PreAuthorize(TODO_OWNER)
     public Todo updateTodo(@RequestBody Todo todo, @PathVariable Long todoId,
                            @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return todoService.update(todo, userDetails);
+        return todoService.update(todoId, todo);
     }
 
     @PutMapping(value = "/{todoId}/done")
@@ -79,4 +81,18 @@ public class TodoController {
         todoService.delete(todoId);
     }
 
+    @PostMapping(value = "/{todoId}/tags", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize(TODO_OWNER)
+    public Todo addNewTag(@RequestBody Tag tag, @PathVariable long todoId,
+                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return todoService.addNewTag(todoId, tag, userDetails);
+    }
+
+    @PostMapping(value = "/{todoId}/tags/{tagId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize(TODO_OWNER + "&&" + TAG_OWNER)
+    public Todo addExistingTag(@PathVariable Long todoId, @PathVariable Long tagId) {
+        return todoService.addExistingTag(todoId, tagId);
+    }
 }

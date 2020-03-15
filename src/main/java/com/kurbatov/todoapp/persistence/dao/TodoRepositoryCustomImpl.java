@@ -16,7 +16,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<Todo> findSeveral(int page, int limit, Long userId) {
+    public List<Todo> findSeveral(Integer page, Integer limit, Long userId) {
         Query q = entityManager.createQuery(
                 "FROM Todo WHERE active = true AND owner_id = :userId ORDER BY todoId DESC"
         );

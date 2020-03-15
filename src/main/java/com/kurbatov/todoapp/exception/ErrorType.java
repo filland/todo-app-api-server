@@ -4,9 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorType {
 
-    /**
-     * Incorrect TodoApp API Request
-     */
     INCORRECT_REQUEST(4001, "Incorrect Request. {}"),
     USER_WITH_EMAIL_EXISTS(4002, "User with the email {} already exists"),
     USER_WITH_USERNAME_EXISTS(4003, "User with the username {} already exists"),
@@ -19,7 +16,7 @@ public enum ErrorType {
     ACCESS_DENIED(4031, "You do not have enough permissions. {}"),
     ADDRESS_LOCKED(4032, "Address is locked due to several incorrect login attempts"),
 
-    RESOURCE_NOT_FOUND(4041, " The {} resource not found"),
+    RESOURCE_NOT_FOUND(4041, "The {} resource not found"),
     AUTH_OAUTH2_EMAIL_NOT_FOUND(4042, "Email not found from OAuth2 provider"),
     CONFIRMATION_TOKEN_NOT_FOUND(4043, "Confirmation token not found"),
 

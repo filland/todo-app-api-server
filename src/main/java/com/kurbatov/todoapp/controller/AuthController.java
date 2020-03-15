@@ -1,10 +1,10 @@
 package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
-import com.kurbatov.todoapp.dto.RegisterRS;
-import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.dto.LoginRQ;
 import com.kurbatov.todoapp.dto.RegisterRQ;
+import com.kurbatov.todoapp.dto.RegisterRS;
+import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,10 +1,10 @@
 package com.kurbatov.todoapp.security.abac.impl;
 
-import com.kurbatov.todoapp.service.TodoService;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.abac.LookupPermission;
 import com.kurbatov.todoapp.security.abac.Permission;
+import com.kurbatov.todoapp.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

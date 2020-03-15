@@ -1,7 +1,10 @@
 package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.dto.common.PageableRS;
+import com.kurbatov.todoapp.exception.ErrorType;
+import com.kurbatov.todoapp.exception.TodoAppException;
 import com.kurbatov.todoapp.persistence.dao.TodoRepository;
+import com.kurbatov.todoapp.persistence.entity.Tag;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
@@ -19,53 +22,54 @@ public class TodoServiceImpl implements TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private TagService tagService;
+
     @Override
     public Todo find(long id) {
-        return todoRepository.findById(id).orElse(null);
+        return todoRepository.findById(id)
+                .orElseThrow(() -> new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "Todo"));
     }
 
     @Override
-    public Long save(Todo todo) {
-        return todoRepository.save(todo).getTodoId();
+    public Todo save(Todo todo) {
+        return todoRepository.save(todo);
     }
 
     @Override
-    public Long save(Todo todo, UserDetails userDetails) {
+    public Todo save(Todo todo, UserDetails userDetails) {
         CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
         todo.setOwner(new User(customUserDetails.getUserId()));
         todo.setActive(true);
-        Todo save = todoRepository.save(todo);
-        return save.getTodoId();
-    }
-
-    @Override
-    public Todo update(Todo todo) {
         return todoRepository.save(todo);
     }
 
     @Override
-    public Todo update(Todo todo, UserDetails userDetails) {
-        CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
-        todo.setOwner(new User(customUserDetails.getUserId()));
-        return todoRepository.save(todo);
+    public Todo update(Long todoId, Todo todo) {
+        Todo dbTodo = this.find(todoId);
+        dbTodo.setTitle(todo.getTitle());
+        dbTodo.setDescription(todo.getDescription());
+        dbTodo.setDone(todo.isDone());
+        dbTodo.setActive(todo.isActive());
+        return todoRepository.save(dbTodo);
     }
 
     @Override
     public void markTodoAsDone(Long todoId) {
         Todo todo = find(todoId);
         todo.setDone(true);
-        save(todo);
+        todoRepository.save(todo);
     }
 
     @Override
-    public void delete(long todoId) {
+    public void delete(Long todoId) {
         Todo todo = this.find(todoId);
         todo.setActive(false);
         todoRepository.save(todo);
     }
 
     @Override
-    public List<Todo> findSeveral(int page, int limit, Long userId) {
+    public List<Todo> findSeveral(Integer page, Integer limit, Long userId) {
         return todoRepository.findSeveral(page, limit, userId);
     }
 
@@ -83,5 +87,28 @@ public class TodoServiceImpl implements TodoService {
         return todoPageableRS;
     }
 
+    @Override
+    public Todo addExistingTag(Long todoId, Long tagId) {
+        Todo todo = this.find(todoId);
+
+        for (Tag tag : todo.getTags()) {
+            if (tag.getTagId().equals(tagId)) {
+                throw new TodoAppException(ErrorType.INCORRECT_REQUEST, "The tag with id " + tagId + " already added");
+            }
+        }
+
+        Tag tag = tagService.findById(tagId);
+        todo.getTags().add(tag);
+        return this.save(todo);
+    }
+
+    @Override
+    public Todo addNewTag(Long todoId, Tag tag, CustomUserDetails userDetails) {
+        Todo todo = this.find(todoId);
+        tag.setOwner(new User(userDetails.getUserId()));
+        Tag savedTag = tagService.save(tag);
+        todo.getTags().add(savedTag);
+        return this.save(todo);
+    }
 
 }

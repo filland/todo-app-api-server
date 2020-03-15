@@ -1,6 +1,8 @@
 package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.LoginRQ;
+import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.dto.RegisterRS;
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.exception.TodoAppException;
@@ -9,8 +11,6 @@ import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.Role;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.security.jwt.JwtTokenProvider;
-import com.kurbatov.todoapp.dto.LoginRQ;
-import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
