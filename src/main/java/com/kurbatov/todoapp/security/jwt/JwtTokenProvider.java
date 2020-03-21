@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
-    public static final String USERNAME_JWT_PAYLOAD_KEY = "username";
+    private static final String USERNAME_JWT_PAYLOAD_KEY = "username";
     private static final String ROLES_JWT_PAYLOAD_KEY = "roles";
 
     @Value("${app.auth.jwtSecret}")
@@ -88,7 +88,7 @@ public class JwtTokenProvider {
         } catch (IllegalArgumentException ex) {
             LOGGER.error("JWT claims string is empty.", ex);
         } catch (Throwable ex) {
-            LOGGER.error("Some exception related to jwt token", ex);
+            LOGGER.error("An exception related to jwt token", ex);
         }
         return false;
     }

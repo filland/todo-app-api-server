@@ -2,11 +2,15 @@ package com.kurbatov.todoapp.security.jwt;
 
 public class JwtAuthenticationResponse {
 
-    private final static String TOKEN_TYPE = "Bearer";
+    private String tokenType;
     private String accessToken;
 
-    public JwtAuthenticationResponse(String accessToken) {
+    public JwtAuthenticationResponse() {
+    }
+
+    public JwtAuthenticationResponse(String accessToken, String tokenType) {
         this.accessToken = accessToken;
+        this.tokenType = tokenType;
     }
 
     public String getAccessToken() {
@@ -18,6 +22,10 @@ public class JwtAuthenticationResponse {
     }
 
     public String getTokenType() {
-        return TOKEN_TYPE;
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

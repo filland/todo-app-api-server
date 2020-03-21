@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.service;
 
-import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.ConfirmEmailRQ;
 import com.kurbatov.todoapp.dto.LoginRQ;
 import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.dto.RegisterRS;
@@ -13,6 +13,7 @@ import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
 import com.kurbatov.todoapp.security.jwt.JwtTokenProvider;
 import com.kurbatov.todoapp.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,9 @@ import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    @Value("${todoapp.email-confirmation-url}")
+    private String emailConfirmationUrl;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -55,7 +59,8 @@ public class AuthServiceImpl implements AuthService {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-        return new JwtAuthenticationResponse(jwt);
+        String tokenType = "Bearer";
+        return new JwtAuthenticationResponse(jwt, tokenType);
     }
 
     @Transactional
@@ -92,9 +97,9 @@ public class AuthServiceImpl implements AuthService {
         confirmationToken.setActive(true);
         confirmationTokenService.save(confirmationToken);
 
-        String confirmationUrl = registerRQ.getEmailConfirmationBrowserUrl() + "?token=" + token;
+        String emailConfirmationUrlWithToken = emailConfirmationUrl + "?token=" + token;
         emailService.sendRegistrationConfirmationEmail(
-                "User registration confirmation", user.getEmail(), confirmationUrl);
+                "Confirm your email to complete registration", user.getEmail(), emailConfirmationUrlWithToken);
 
         RegisterRS registerRS = new RegisterRS();
         registerRS.setId(user.getId());
@@ -103,8 +108,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void completeRegistration(CompleteRegistrationRQ completeRegistrationRQ) {
-        ConfirmationToken token = confirmationTokenService.findByToken(completeRegistrationRQ.getToken())
+    public void confirmEmail(ConfirmEmailRQ confirmEmailRQ) {
+        ConfirmationToken token = confirmationTokenService.findByToken(confirmEmailRQ.getToken())
                 .orElseThrow(() -> new TodoAppException(ErrorType.CONFIRMATION_TOKEN_NOT_FOUND));
         token.setActive(false);
         confirmationTokenService.save(token);

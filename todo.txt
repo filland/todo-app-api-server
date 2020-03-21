@@ -1,16 +1,11 @@
 
 
 CURRENT:
-- add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
+- Write integration tests for the UserController
 
 TODO:
 
-- Write tests for the TodoService
-- Write tests for the TodoController
-- Write tests for the UserService
-- Write tests for the UserController
-- Write tests for the TagService
-- Write tests for the TagController
+### features:
 - cache for get requests (Hibernate second level cache?)
 - create a separate table for emails and a quartz job for sending emails
 - users who not confirmed emails can only read user info (/users/me)
@@ -24,9 +19,19 @@ via registration form
 - replace gmail smtp server (use a free layer of a smtp server provider)
 - deploy the server using jenkins
 - Add swagger ?
+- Add profiles for testing and production ?
 
+### testing:
+- Write tests for the TagService
+- Write tests for the TagController
+- Write tests for the TodoService
+- Write tests for the TodoController
+- Write tests for the UserService
+- Validation tests for DTOs ?
 
 DONE:
+- Write integration tests for the AuthController
+- add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
 - add Tag owner permission
 - Pageable for the todo_ endpoint
 - implement mark _todo as done endpoint
@@ -74,4 +79,4 @@ so I guess follow the KISS principle
 OTHER:
 - how to easily switch between local database creds ?
 - move to PostgresSQL server
-- return html page when GET this url http://localhost:8080/error
+- server returns an html page when GET this url http://localhost:8080/error

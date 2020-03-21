@@ -15,6 +15,7 @@ public enum ErrorType {
 
     ACCESS_DENIED(4031, "You do not have enough permissions. {}"),
     ADDRESS_LOCKED(4032, "Address is locked due to several incorrect login attempts"),
+    BAD_CREDENTIALS(4033, "You provided wrong password or login"),
 
     RESOURCE_NOT_FOUND(4041, "The {} resource not found"),
     AUTH_OAUTH2_EMAIL_NOT_FOUND(4042, "Email not found from OAuth2 provider"),

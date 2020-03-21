@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.controller;
 
-import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.ConfirmEmailRQ;
 import com.kurbatov.todoapp.dto.LoginRQ;
 import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.dto.RegisterRS;
@@ -38,10 +38,10 @@ public class AuthController {
         return authService.registerUser(registerRQ);
     }
 
-    @PostMapping("/complete-registration")
+    @PostMapping("/confirm-email")
     @ResponseStatus(HttpStatus.OK)
-    public void completeRegistration(@RequestBody CompleteRegistrationRQ completeRegistrationRQ) {
-        authService.completeRegistration(completeRegistrationRQ);
+    public void confirmEmailToCompleteRegistration(@RequestBody ConfirmEmailRQ confirmEmailRQ) {
+        authService.confirmEmail(confirmEmailRQ);
     }
 
 }

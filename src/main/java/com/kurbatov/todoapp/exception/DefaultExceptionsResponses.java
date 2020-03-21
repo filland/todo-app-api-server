@@ -37,7 +37,7 @@ public class DefaultExceptionsResponses {
 
         defaultExceptionsMapping.put(
                 BadCredentialsException.class,
-                buildRestException(ErrorType.ACCESS_DENIED, "Bad credentials"));
+                buildRestException(ErrorType.BAD_CREDENTIALS, null));
 
         defaultExceptionsMapping.put(
                 LockedException.class,

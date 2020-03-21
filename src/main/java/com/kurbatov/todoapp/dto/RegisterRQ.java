@@ -16,21 +16,13 @@ public class RegisterRQ {
 
     @NotBlank
     @Email
-    @Pattern(regexp = "[a-zA-Z0-9_.]{3,100}@[a-zA-Z0-9_.]{2,30}.[a-zA-Z0-9_.]{2,7}")
+//    @Pattern(regexp = "[a-zA-Z0-9_.]{3,100}@[a-zA-Z0-9_.]{2,30}.[a-zA-Z0-9_.]{2,7}")
     private String email;
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9!_]+")
     @Size(min = 6, max = 20)
     private String password;
-
-    // TODO create a property instead because such things can be discussed and never changed afterwards
-    /**
-     * The url that should be used in the email for confirmation
-     * email and completing the registration
-     */
-    @NotBlank
-    private String emailConfirmationBrowserUrl;
 
     public String getName() {
         return name;
@@ -62,13 +54,5 @@ public class RegisterRQ {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmailConfirmationBrowserUrl() {
-        return emailConfirmationBrowserUrl;
-    }
-
-    public void setEmailConfirmationBrowserUrl(String emailConfirmationBrowserUrl) {
-        this.emailConfirmationBrowserUrl = emailConfirmationBrowserUrl;
     }
 }

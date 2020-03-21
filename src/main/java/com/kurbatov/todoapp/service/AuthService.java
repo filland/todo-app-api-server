@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.service;
 
-import com.kurbatov.todoapp.dto.CompleteRegistrationRQ;
+import com.kurbatov.todoapp.dto.ConfirmEmailRQ;
 import com.kurbatov.todoapp.dto.LoginRQ;
 import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.dto.RegisterRS;
@@ -15,7 +15,7 @@ public interface AuthService {
     /**
      * Complete user's registration
      *
-     * @param completeRegistrationRQ
+     * @param confirmEmailRQ
      */
-    void completeRegistration(CompleteRegistrationRQ completeRegistrationRQ);
+    void confirmEmail(ConfirmEmailRQ confirmEmailRQ);
 }

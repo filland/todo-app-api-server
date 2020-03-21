@@ -1,13 +1,13 @@
 package com.kurbatov.todoapp.dto;
 
-public class CompleteRegistrationRQ {
+public class ConfirmEmailRQ {
 
     /**
      * Token to complete user's registration
      */
     private String token;
 
-    public CompleteRegistrationRQ() {
+    public ConfirmEmailRQ() {
     }
 
     public String getToken() {

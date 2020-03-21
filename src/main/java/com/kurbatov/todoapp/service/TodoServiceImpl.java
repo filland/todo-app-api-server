@@ -14,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
+
+import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
 
 @Component
 public class TodoServiceImpl implements TodoService {
@@ -103,6 +106,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
+    @Transactional
     public Todo addNewTag(Long todoId, Tag tag, CustomUserDetails userDetails) {
         Todo todo = this.find(todoId);
         tag.setOwner(new User(userDetails.getUserId()));

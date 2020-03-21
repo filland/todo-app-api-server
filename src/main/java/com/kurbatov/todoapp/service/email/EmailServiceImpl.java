@@ -14,7 +14,7 @@ import java.util.Map;
 public class EmailServiceImpl implements EmailService {
 
     // it does not make sense because the FROM is always the same now
-//    @Value("${mail.from}")
+//    @Value("${todoapp.email.from}")
 //    private String mailFrom;
 
     @Autowired

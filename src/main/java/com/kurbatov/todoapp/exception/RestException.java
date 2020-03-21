@@ -46,4 +46,8 @@ public class RestException implements Serializable {
 
         this.errorTypeCode = errorTypeCode;
     }
+
+    public int getErrorCode() {
+        return errorTypeCode;
+    }
 }
