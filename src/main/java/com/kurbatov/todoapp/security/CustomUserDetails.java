@@ -80,6 +80,14 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return String.valueOf(getUserId());
+        return user.getFirstName()+ " "+user.getLastName();
+    }
+
+    public String getFirstName() {
+        return user.getFirstName();
+    }
+
+    public String getLastName() {
+        return user.getLastName();
     }
 }

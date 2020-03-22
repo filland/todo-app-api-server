@@ -1,5 +1,7 @@
 package com.kurbatov.todoapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -7,7 +9,15 @@ import javax.validation.constraints.Size;
 
 public class RegisterRQ {
 
-    private String name;
+    @Size(max = 50)
+    @Pattern(regexp = "[a-zA-Z]+")
+    @JsonProperty("firstName")
+    private String firstName;
+
+    @Size(max = 50)
+    @Pattern(regexp = "[a-zA-Z]+")
+    @JsonProperty("lastName")
+    private String lastName;
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9_.]+")
@@ -21,15 +31,23 @@ public class RegisterRQ {
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9!_]+")
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 30)
     private String password;
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {

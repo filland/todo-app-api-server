@@ -4,12 +4,14 @@ import com.kurbatov.todoapp.persistence.entity.Tag;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
+import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 import com.kurbatov.todoapp.service.TodoService;
 import com.kurbatov.todoapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,18 +29,22 @@ public class DatabaseLoader implements CommandLineRunner {
     @Autowired
     private TodoService todoService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
         try {
             User user = new User();
             user.setUsername("user1");
             user.setEmail("todoappuser1@todoapp.com");
-            user.setPassword("$2a$10$Es6k9yWE9a0HoYYQ.ivwWuwA3IYJfi.Ryy/oQCuNVYSdmnIAoKVNS");
+            user.setPassword(passwordEncoder.encode("123123"));
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole("ROLE_USER");
             user.setActive(true);
             user.setEmailConfirmed(true);
+            user.setProvider(AuthProvider.LOCAL);
 
             User saveUser = userService.saveUser(user);
 

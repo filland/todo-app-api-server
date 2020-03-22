@@ -9,12 +9,12 @@ import javax.validation.constraints.Size;
 
 public class UpdateUserRQ {
 
-    @Size(max = 100)
+    @Size(max = 50)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("firstName")
     private String firstName;
 
-    @Size(max = 100)
+    @Size(max = 50)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("lastName")
     private String lastName;
@@ -27,7 +27,7 @@ public class UpdateUserRQ {
 
     @NotBlank
     @Email
-    @Pattern(regexp = "[a-zA-Z0-9_.]{3,100}@[a-zA-Z0-9_.]{2,30}.[a-zA-Z0-9_.]{2,7}")
+//    @Pattern(regexp = "[a-zA-Z0-9_.]{3,100}@[a-zA-Z0-9_.]{2,30}.[a-zA-Z0-9_.]{2,7}")
     @JsonProperty("email")
     private String email;
 

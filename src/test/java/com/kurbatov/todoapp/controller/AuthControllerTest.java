@@ -6,17 +6,13 @@ import com.kurbatov.todoapp.dto.RegisterRQ;
 import com.kurbatov.todoapp.dto.RegisterRS;
 import com.kurbatov.todoapp.dto.ValidationRS;
 import com.kurbatov.todoapp.exception.ErrorType;
-import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.jwt.JwtAuthenticationResponse;
+import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MvcResult;
-import sun.security.util.Password;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,28 +21,22 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AuthControllerTest extends BaseWebMvcTest {
 
     private final String existingUsername = "authControllerUser";
     private final String existingPassword = "123123";
     private final String existingUserEmail = "authcontroller@todoapp.com";
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @BeforeAll
     public void beforeAll() {
         User user = new User();
         user.setUsername(existingUsername);
         user.setEmail(existingUserEmail);
-        user.setPassword(passwordEncoder.encode(existingPassword));
+        user.setPassword(existingPassword);
         user.setActive(true);
         user.setEmailConfirmed(true);
-        userRepository.save(user);
+        user.setProvider(AuthProvider.LOCAL);
+        createNewUser(user);
     }
 
     @Test
@@ -328,7 +318,7 @@ public class AuthControllerTest extends BaseWebMvcTest {
     void passwordTooLong_registerTest() throws Exception {
 
         StringBuilder tooLongPassword = new StringBuilder();
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 35; i++) {
             tooLongPassword.append("a");
         }
         RegisterRQ registerRQ = new RegisterRQ();

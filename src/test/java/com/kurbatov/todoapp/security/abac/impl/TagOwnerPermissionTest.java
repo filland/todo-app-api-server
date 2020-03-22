@@ -2,16 +2,15 @@ package com.kurbatov.todoapp.security.abac.impl;
 
 import com.kurbatov.todoapp.persistence.entity.Tag;
 import com.kurbatov.todoapp.persistence.entity.User;
-import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.service.TagService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+import static com.kurbatov.todoapp.TestUtils.buildAuthentication;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -58,12 +57,6 @@ class TagOwnerPermissionTest {
 
         Long tagId = 1L;
         assertFalse(tagOwnerPermission.isAllowed(authentication, tagId));
-    }
-
-
-    private UsernamePasswordAuthenticationToken buildAuthentication(User user) {
-        CustomUserDetails userDetails = new CustomUserDetails(user);
-        return new UsernamePasswordAuthenticationToken(userDetails, null);
     }
 
 }
