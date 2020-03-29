@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import static com.kurbatov.todoapp.TestUtils.buildAuthentication;
@@ -54,5 +55,20 @@ public class BaseWebMvcTest {
             mockRequest.addHeader("Authorization", "Bearer " + tokenValue);
             return mockRequest;
         };
+    }
+
+    /**
+     * Method for converting response to an object
+     * @param result
+     * @param objectClass
+     * @param <R>
+     * @return
+     */
+    public <R> R fromMvcResultToObject(MvcResult result, Class<R> objectClass) {
+        try {
+            return objectMapper.readValue(result.getResponse().getContentAsString(), objectClass);
+        } catch (Throwable e) {
+            throw new RuntimeException("Was not able to convert response to object of type " + objectClass.getName(), e);
+        }
     }
 }

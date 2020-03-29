@@ -1,13 +1,15 @@
 package com.kurbatov.todoapp.service;
 
+import com.kurbatov.todoapp.dto.tag.TagResource;
+import com.kurbatov.todoapp.dto.tag.UpdateTagRQ;
 import com.kurbatov.todoapp.persistence.entity.Tag;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 
 public interface TagService {
 
-    Tag findById(Long tagId);
+    TagResource findById(Long tagId);
 
-    Tag save(Tag tag);
+    Tag createTag(Tag tag);
 
-    Tag update(Tag tag, Long tagId, CustomUserDetails userDetails);
+    TagResource updateTag(UpdateTagRQ tag, Long tagId, CustomUserDetails userDetails);
 }

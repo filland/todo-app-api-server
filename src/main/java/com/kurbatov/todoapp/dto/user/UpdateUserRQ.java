@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.dto;
+package com.kurbatov.todoapp.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,20 +7,24 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USERNAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USER_FIRST_NAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USER_LAST_NAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MIN_USERNAME_LENGTH;
+
 public class UpdateUserRQ {
 
-    @Size(max = 50)
+    @Size(max = MAX_USER_FIRST_NAME_LENGTH)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("firstName")
     private String firstName;
 
-    @Size(max = 50)
+    @Size(max = MAX_USER_LAST_NAME_LENGTH)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("lastName")
     private String lastName;
 
-    @NotBlank
-    @Size(min = 5, max = 30)
+    @Size(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
     @Pattern(regexp = "[a-zA-Z0-9-_.]+")
     @JsonProperty("username")
     private String username;

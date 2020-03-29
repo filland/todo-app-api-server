@@ -1,13 +1,12 @@
 package com.kurbatov.todoapp.controller;
 
-import com.kurbatov.todoapp.dto.ChangeUserPasswordRQ;
-import com.kurbatov.todoapp.dto.UpdateUserRQ;
-import com.kurbatov.todoapp.persistence.entity.User;
+import com.kurbatov.todoapp.dto.user.ChangeUserPasswordRQ;
+import com.kurbatov.todoapp.dto.user.UpdateUserRQ;
+import com.kurbatov.todoapp.dto.user.UserResource;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,19 +27,22 @@ public class UserController {
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public User getCurrentUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        User user = new User();
+    public UserResource getCurrentUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        // do not use services since userDetails already has all info
+        UserResource user = new UserResource();
+        user.setId(userDetails.getUserId());
         user.setUsername(userDetails.getUsername());
         user.setEmail(userDetails.getUserEmail());
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
+        user.setActive(userDetails.isActive());
         return user;
     }
 
     @PostMapping("/me")
     @ResponseStatus(HttpStatus.OK)
-    public User updateCurrentUser(@Valid @RequestBody UpdateUserRQ user,
-                                  @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public UserResource updateCurrentUser(@Valid @RequestBody UpdateUserRQ user,
+                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
         return userService.updateCurrentUser(user, userDetails);
     }
 
@@ -53,21 +55,13 @@ public class UserController {
 
     @GetMapping("/check-username")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity checkIfUsernameAlreadyUsed(@RequestParam("username") String username) {
-        boolean usernameExists = userService.existsByUsername(username);
-        if (usernameExists) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok().build();
+    public void checkIfUsernameAlreadyUsed(@RequestParam("username") String username) {
+        userService.existsByUsername(username);
     }
 
     @GetMapping("/check-email")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity checkIfEmailAlreadyUsed(@RequestParam("email") String email) {
-        boolean emailExists = userService.existsByEmail(email);
-        if (emailExists) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok().build();
+    public void checkIfEmailAlreadyUsed(@RequestParam("email") String email) {
+        userService.existsByEmail(email);
     }
 }

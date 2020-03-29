@@ -1,8 +1,9 @@
 package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.BaseWebMvcTest;
-import com.kurbatov.todoapp.dto.ChangeUserPasswordRQ;
-import com.kurbatov.todoapp.dto.UpdateUserRQ;
+import com.kurbatov.todoapp.dto.user.ChangeUserPasswordRQ;
+import com.kurbatov.todoapp.dto.user.UpdateUserRQ;
+import com.kurbatov.todoapp.dto.user.UserResource;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,8 +13,8 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,17 +28,18 @@ class UserControllerTest extends BaseWebMvcTest {
 
     private final String USER_ENDPOINT = "/api/v1/users";
 
-    private static final String TOKEN = "token";
-    private static final String USER = "user";
-
-    private Stack<Map<String, Object>> testData;
+    private static final String TOKEN_KEY = "token";
+    private static final String USER_KEY = "user";
 
     private static final String COMMON_PASSWORD = "123qwerty";
+
+    // queue of maps where map contains user and jwtToken for the user
+    private LinkedList<Map<String, Object>> testData;
 
     @BeforeAll
     void beforeAll() {
 
-        testData = new Stack<>();
+        testData = new LinkedList<>();
 
         String existingUsername = "userControllerUser";
         String existingUserEmail = "usercontroller@todoapp.com";
@@ -49,15 +51,17 @@ class UserControllerTest extends BaseWebMvcTest {
             User user = new User();
             user.setUsername(existingUsername + i);
             user.setEmail(i + existingUserEmail);
+            user.setFirstName("firstname");
+            user.setLastName("lastname");
             user.setPassword(COMMON_PASSWORD);
             user.setActive(true);
             user.setEmailConfirmed(true);
             user.setProvider(AuthProvider.LOCAL);
             User newUser = createNewUser(user);
-            map.put(USER, newUser);
+            map.put(USER_KEY, newUser);
 
             String jwtToken = generateJwtToken(user);
-            map.put(TOKEN, jwtToken);
+            map.put(TOKEN_KEY, jwtToken);
 
             testData.push(map);
         }
@@ -66,8 +70,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void validRequest_getCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         MvcResult result = mockMvc.perform(get(USER_ENDPOINT + "/me")
                 .with(csrf())
@@ -78,7 +82,8 @@ class UserControllerTest extends BaseWebMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        User userFromResponse = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        UserResource userFromResponse = objectMapper
+                .readValue(result.getResponse().getContentAsString(), UserResource.class);
         assertEquals(user.getEmail(), userFromResponse.getEmail());
         assertEquals(user.getUsername(), userFromResponse.getUsername());
         assertEquals(user.getFirstName(), userFromResponse.getFirstName());
@@ -89,8 +94,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void validUserData_updateCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         UpdateUserRQ updateUserRQ = new UpdateUserRQ();
         updateUserRQ.setEmail("t" + user.getEmail());
@@ -108,7 +113,8 @@ class UserControllerTest extends BaseWebMvcTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        User userFromResponse = objectMapper.readValue(result.getResponse().getContentAsString(), User.class);
+        UserResource userFromResponse = objectMapper
+                .readValue(result.getResponse().getContentAsString(), UserResource.class);
         assertEquals(updateUserRQ.getEmail(), userFromResponse.getEmail());
         assertEquals(updateUserRQ.getUsername(), userFromResponse.getUsername());
         assertEquals(updateUserRQ.getFirstName(), userFromResponse.getFirstName());
@@ -119,8 +125,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidUsername_updateCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         UpdateUserRQ updateUserRQ = new UpdateUserRQ();
         updateUserRQ.setEmail("new" + user.getEmail());
@@ -141,8 +147,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidFirstName_updateCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         UpdateUserRQ updateUserRQ = new UpdateUserRQ();
         updateUserRQ.setEmail("new" + user.getEmail());
@@ -163,8 +169,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidLastName_updateCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         UpdateUserRQ updateUserRQ = new UpdateUserRQ();
         updateUserRQ.setEmail("new" + user.getEmail());
@@ -186,8 +192,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidEmail_updateCurrentUserTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         UpdateUserRQ updateUserRQ = new UpdateUserRQ();
         updateUserRQ.setEmail("" + new Date().getTime());
@@ -214,7 +220,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void validData_changeCurrentPasswordTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         ChangeUserPasswordRQ changeUserPasswordRQ = new ChangeUserPasswordRQ();
         changeUserPasswordRQ.setOldPassword(COMMON_PASSWORD);
@@ -233,7 +239,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void wrongOldPassword_changeCurrentPasswordTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         ChangeUserPasswordRQ changeUserPasswordRQ = new ChangeUserPasswordRQ();
         changeUserPasswordRQ.setOldPassword("wrongOldPassword");
@@ -252,7 +258,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidOldPassword_changeCurrentPasswordTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         ChangeUserPasswordRQ changeUserPasswordRQ = new ChangeUserPasswordRQ();
         changeUserPasswordRQ.setOldPassword(COMMON_PASSWORD + "%&*");
@@ -271,7 +277,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void invalidNewPassword_changeCurrentPasswordTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         ChangeUserPasswordRQ changeUserPasswordRQ = new ChangeUserPasswordRQ();
         changeUserPasswordRQ.setOldPassword(COMMON_PASSWORD);
@@ -291,8 +297,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void usernameExists_checkIfUsernameAlreadyUsedTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         mockMvc.perform(
                 get(USER_ENDPOINT + "/check-username?username={usernamePlaceholder}", user.getUsername())
@@ -307,7 +313,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void usernameNotExist_checkIfUsernameAlreadyUsedTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         String usernameWhatDoesNotExist = "newUsername" + new Date().getTime();
 
@@ -326,7 +332,7 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void emailExists_checkIfEmailAlreadyUsedTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        String jwtToken = (String) userData.get(TOKEN);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         String emailThatDoesNotExist = new Date().getTime() + "mail@todoapp.com";
 
@@ -343,8 +349,8 @@ class UserControllerTest extends BaseWebMvcTest {
     @Test
     void emailDoesNotExist_checkIfEmailAlreadyUsedTest() throws Exception {
         Map<String, Object> userData = testData.pop();
-        User user = (User) userData.get(USER);
-        String jwtToken = (String) userData.get(TOKEN);
+        User user = (User) userData.get(USER_KEY);
+        String jwtToken = (String) userData.get(TOKEN_KEY);
 
         mockMvc.perform(
                 get(USER_ENDPOINT + "/check-email?email={emailPlaceholder}", user.getEmail())

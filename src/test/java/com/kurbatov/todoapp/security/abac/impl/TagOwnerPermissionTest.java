@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.security.abac.impl;
 
-import com.kurbatov.todoapp.persistence.entity.Tag;
+import com.kurbatov.todoapp.dto.tag.TagResource;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.service.TagService;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,8 @@ class TagOwnerPermissionTest {
         User tagOwner = new User();
         tagOwner.setUserId(1L);
 
-        Tag importantTag = new Tag("important");
-        importantTag.setOwner(tagOwner);
+        TagResource importantTag = new TagResource("important");
+        importantTag.setOwnerId(tagOwner.getId());
 
         when(tagService.findById(1L)).thenReturn(importantTag);
 
@@ -47,8 +47,8 @@ class TagOwnerPermissionTest {
 
         User tagOwner = new User();
         tagOwner.setUserId(2L);
-        Tag importantTag = new Tag("important");
-        importantTag.setOwner(tagOwner);
+        TagResource importantTag = new TagResource("important");
+        importantTag.setOwnerId(tagOwner.getId());
         when(tagService.findById(1L)).thenReturn(importantTag);
 
         User user = new User();

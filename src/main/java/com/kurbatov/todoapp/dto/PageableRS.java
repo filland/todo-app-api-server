@@ -1,4 +1,4 @@
-package com.kurbatov.todoapp.dto.common;
+package com.kurbatov.todoapp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

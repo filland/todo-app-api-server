@@ -1,18 +1,20 @@
 package com.kurbatov.todoapp.persistence.init;
 
-import com.kurbatov.todoapp.persistence.entity.Tag;
+import com.kurbatov.todoapp.dto.tag.CreateTagRQ;
+import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.Todo;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.oauth2.AuthProvider;
 import com.kurbatov.todoapp.service.TodoService;
-import com.kurbatov.todoapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * This class is only for populating the database with
@@ -24,7 +26,7 @@ public class DatabaseLoader implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseLoader.class);
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
     private TodoService todoService;
@@ -35,8 +37,17 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try {
+
+            final String USERNAME = "user1";
+
+            Optional<User> optionalUser = userRepository.findByUsername(USERNAME);
+
+            if (optionalUser.isPresent()) {
+                return;
+            }
+
             User user = new User();
-            user.setUsername("user1");
+            user.setUsername(USERNAME);
             user.setEmail("todoappuser1@todoapp.com");
             user.setPassword(passwordEncoder.encode("123123"));
             user.setFirstName("John");
@@ -46,7 +57,7 @@ public class DatabaseLoader implements CommandLineRunner {
             user.setEmailConfirmed(true);
             user.setProvider(AuthProvider.LOCAL);
 
-            User saveUser = userService.saveUser(user);
+            User saveUser = userRepository.save(user);
 
             for (int i = 0; i < 10; i++) {
 
@@ -56,15 +67,13 @@ public class DatabaseLoader implements CommandLineRunner {
                 todo.setOwner(saveUser);
                 todo.setActive(true);
                 todo.setDone(false);
-                todoService.save(todo);
+                todoService.createTodo(todo);
 
-                Tag tag1 = new Tag();
-                tag1.setActive(true);
+                CreateTagRQ tag1 = new CreateTagRQ();
                 tag1.setName("tag1");
                 todoService.addNewTag(todo.getTodoId(), tag1, new CustomUserDetails(user));
 
-                Tag tag2 = new Tag();
-                tag2.setActive(true);
+                CreateTagRQ tag2 = new CreateTagRQ();
                 tag2.setName("tag2");
                 todoService.addNewTag(todo.getTodoId(), tag2, new CustomUserDetails(user));
 
@@ -89,9 +98,9 @@ public class DatabaseLoader implements CommandLineRunner {
                 todo4.setDone(false);
                 todo4.setActive(true);
 
-                todoService.save(todo2);
-                todoService.save(todo3);
-                todoService.save(todo4);
+                todoService.createTodo(todo2);
+                todoService.createTodo(todo3);
+                todoService.createTodo(todo4);
             }
 
         } catch (Throwable e) {

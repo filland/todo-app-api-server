@@ -1,38 +1,37 @@
 
 
 CURRENT:
-- Write integration tests for TodoController
+- users who not confirmed emails cannot login to the app
+
 
 TODO:
 
 ### features:
-- cache for get requests (Hibernate second level cache?)
-- create a separate table for emails and a quartz job for sending emails
-- users who not confirmed emails can only read user info (/users/me)
--- just add another permission for the getUser method
-- https://spring.io/guides/tutorials/react-and-spring-data-rest/
-- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
-- converters for converting from entity to resource and back like in RP
-- handle case when user loging in using GitHub and has the same email as the user registered
-via registration form
 - implement Sorting for todos
-- replace gmail smtp server (use a free layer of a smtp server provider)
-- deploy the server using jenkins
-- Add swagger ?
-- Add profiles for testing and production ?
+- create a separate table for emails and a quartz job for sending emails
+- handle case when user loging in using GitHub and has the same email as the user registered via registration form
 - add feature to allow the user to make payments
+- add SSL (TSL ?) certificate so it is possible to connect to the server via https.
+- replace gmail smtp server (use a free layer of a smtp server provider)
+- https://spring.io/guides/tutorials/react-and-spring-data-rest/
+- Add swagger ?
 - add search
+- deploy the server using jenkins
 
 ### testing:
-- Write tests for the TagService
-- Write tests for the TagController
-- Write tests for the TodoService
-- Write tests for the UserService
+- Add profiles for testing and production ?
+- Write tests for TagService
+- Write tests for TodoService
+- Write tests for UserService
 - Validation tests for DTOs ?
 
 DONE:
-- Write integration tests for UserController
-- Write integration tests for AuthController
+- converters for converting from entity to resource and back like in RP
+- Write integration tests for TodoController
+- Write integration tests for TagController
+- Create DTOs for entities to separate Controller layer from Service layer
+- Write integration tests for UserController (4h)
+- Write integration tests for AuthController (40h)
 - add Tag entity (a todo_ can have multiple tags, different todos can have the same tag for one user)
 - add Tag owner permission
 - Pageable for the todo_ endpoint
@@ -79,6 +78,7 @@ so I guess follow the KISS principle
 
 
 OTHER:
+- cache for get requests (Hibernate second level cache?)
 - how to easily switch between local database creds ?
 - move to PostgresSQL server
 - server returns an html page when GET this url http://localhost:8080/error

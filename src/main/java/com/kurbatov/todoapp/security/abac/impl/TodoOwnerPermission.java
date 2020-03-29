@@ -1,6 +1,6 @@
 package com.kurbatov.todoapp.security.abac.impl;
 
-import com.kurbatov.todoapp.persistence.entity.Todo;
+import com.kurbatov.todoapp.dto.todo.TodoResource;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.abac.LookupPermission;
 import com.kurbatov.todoapp.security.abac.Permission;
@@ -26,12 +26,12 @@ public class TodoOwnerPermission implements Permission {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        Todo dbTodo = todoService.find((Long) todoId);
+        TodoResource todoResource = todoService.findById((Long) todoId);
 
-        if (dbTodo == null) {
+        if (todoResource == null) {
             return false;
         }
 
-        return userDetails.getUserId().equals(dbTodo.getOwner().getUserId());
+        return userDetails.getUserId().equals(todoResource.getOwnerId());
     }
 }

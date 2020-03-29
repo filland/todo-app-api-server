@@ -2,10 +2,11 @@ package com.kurbatov.todoapp.service;
 
 import com.kurbatov.todoapp.dto.ConfirmEmailRQ;
 import com.kurbatov.todoapp.dto.LoginRQ;
-import com.kurbatov.todoapp.dto.RegisterRQ;
-import com.kurbatov.todoapp.dto.RegisterRS;
+import com.kurbatov.todoapp.dto.RegisterUserRQ;
+import com.kurbatov.todoapp.dto.RegisterUserRS;
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.exception.TodoAppException;
+import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.ConfirmationToken;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.Role;
@@ -37,6 +38,9 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenProvider tokenProvider;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -65,25 +69,21 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public RegisterRS registerUser(RegisterRQ registerRQ) {
-        if (userService.existsByUsername(registerRQ.getUsername())) {
-            throw new TodoAppException(ErrorType.USER_WITH_USERNAME_EXISTS, registerRQ.getUsername());
-        }
-
-        if (userService.existsByEmail(registerRQ.getEmail())) {
-            throw new TodoAppException(ErrorType.USER_WITH_EMAIL_EXISTS, registerRQ.getEmail());
-        }
+    public RegisterUserRS registerUser(RegisterUserRQ registerUserRQ) {
+        // validate that user does not exist
+        userService.existsByUsername(registerUserRQ.getUsername());
+        userService.existsByEmail(registerUserRQ.getEmail());
 
         // Creating user's account
         User user = new User();
-        user.setUsername(registerRQ.getUsername());
-        user.setEmail(registerRQ.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRQ.getPassword()));
+        user.setUsername(registerUserRQ.getUsername());
+        user.setEmail(registerUserRQ.getEmail());
+        user.setPassword(passwordEncoder.encode(registerUserRQ.getPassword()));
         user.setRole(Role.USER.getAuthority());
         user.setActive(true);
         user.setEmailConfirmed(false);
 
-        User savedUser = userService.saveUser(user);
+        User savedUser = userRepository.save(user);
 
         if (savedUser == null) {
             throw new TodoAppException(ErrorType.USER_ACCOUNT_WAS_NOT_CREATED);
@@ -101,9 +101,9 @@ public class AuthServiceImpl implements AuthService {
         emailService.sendRegistrationConfirmationEmail(
                 "Confirm your email to complete registration", user.getEmail(), emailConfirmationUrlWithToken);
 
-        RegisterRS registerRS = new RegisterRS();
-        registerRS.setId(user.getId());
-        return registerRS;
+        RegisterUserRS registerUserRS = new RegisterUserRS();
+        registerUserRS.setId(user.getId());
+        return registerUserRS;
     }
 
     @Transactional
@@ -114,9 +114,9 @@ public class AuthServiceImpl implements AuthService {
         token.setActive(false);
         confirmationTokenService.save(token);
 
-        User user = userService.findByEmail(token.getUser().getEmail())
+        User user = userRepository.findByEmail(token.getUser().getEmail())
                 .orElseThrow(() -> new TodoAppException(ErrorType.RESOURCE_NOT_FOUND, "User"));
         user.setEmailConfirmed(true);
-        userService.saveUser(user);
+        userRepository.save(user);
     }
 }

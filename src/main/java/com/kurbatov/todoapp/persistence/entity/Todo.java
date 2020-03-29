@@ -14,7 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_TODO_DESC_LENGTH;
 
 @Entity
 @Table(name = "todo")
@@ -29,7 +32,7 @@ public class Todo extends BaseEntity {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "description", length = 1000)
+    @Column(name = "description", length = MAX_TODO_DESC_LENGTH)
     private String description;
 
     @Column(name = "done", nullable = false, columnDefinition = "tinyint default false")
@@ -47,7 +50,7 @@ public class Todo extends BaseEntity {
             joinColumns = {@JoinColumn(name = "todoId")},
             inverseJoinColumns = {@JoinColumn(name = "tagId")}
     )
-    private List<Tag> tags;
+    private List<Tag> tags = new ArrayList<>();
 
     public Todo() {
     }

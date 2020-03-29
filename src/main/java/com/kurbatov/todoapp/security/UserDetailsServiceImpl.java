@@ -1,8 +1,7 @@
 package com.kurbatov.todoapp.security;
 
-import com.kurbatov.todoapp.exception.TodoAppException;
+import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.User;
-import com.kurbatov.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,17 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user;
-        try {
-            user = userService.findByUsername(username);
-        } catch (TodoAppException e) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
-        }
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found with username: " + username));
 
         return new CustomUserDetails(user);
     }
@@ -34,7 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Transactional
     public UserDetails loadUserById(Long id) {
-        User user = userService.findById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
         return new CustomUserDetails(user);
     }

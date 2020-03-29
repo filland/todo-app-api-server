@@ -7,21 +7,28 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class RegisterRQ {
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USERNAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USER_FIRST_NAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USER_LAST_NAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MAX_USER_PASSWORD_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MIN_USERNAME_LENGTH;
+import static com.kurbatov.todoapp.util.ValidationConstraints.MIN_USER_PASSWORD_LENGTH;
 
-    @Size(max = 50)
+public class RegisterUserRQ {
+
+    @Size(max = MAX_USER_FIRST_NAME_LENGTH)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("firstName")
     private String firstName;
 
-    @Size(max = 50)
+    @Size(max = MAX_USER_LAST_NAME_LENGTH)
     @Pattern(regexp = "[a-zA-Z]+")
     @JsonProperty("lastName")
     private String lastName;
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9_.]+")
-    @Size(min = 5, max = 30)
+    @Size(min = MIN_USERNAME_LENGTH, max = MAX_USERNAME_LENGTH)
     private String username;
 
     @NotBlank
@@ -31,7 +38,7 @@ public class RegisterRQ {
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9!_]+")
-    @Size(min = 6, max = 30)
+    @Size(min = MIN_USER_PASSWORD_LENGTH, max = MAX_USER_PASSWORD_LENGTH)
     private String password;
 
     public String getFirstName() {

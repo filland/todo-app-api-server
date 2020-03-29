@@ -1,6 +1,7 @@
 package com.kurbatov.todoapp.controller;
 
-import com.kurbatov.todoapp.persistence.entity.Tag;
+import com.kurbatov.todoapp.dto.tag.TagResource;
+import com.kurbatov.todoapp.dto.tag.UpdateTagRQ;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,10 @@ public class TagController {
     @PutMapping("/{tagId}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize(TAG_OWNER)
-    public Tag updateTag(@RequestBody Tag tag,
-                         @PathVariable Long tagId,
-                         @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return tagService.update(tag, tagId, userDetails);
+    public TagResource updateTag(@RequestBody UpdateTagRQ updateTagRQ,
+                                 @PathVariable Long tagId,
+                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return tagService.updateTag(updateTagRQ, tagId, userDetails);
     }
 
 }

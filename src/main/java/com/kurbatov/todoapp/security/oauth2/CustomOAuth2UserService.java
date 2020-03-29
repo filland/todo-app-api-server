@@ -1,12 +1,12 @@
 package com.kurbatov.todoapp.security.oauth2;
 
 import com.kurbatov.todoapp.exception.ErrorType;
+import com.kurbatov.todoapp.persistence.dao.UserRepository;
 import com.kurbatov.todoapp.persistence.entity.User;
 import com.kurbatov.todoapp.security.CustomUserDetails;
 import com.kurbatov.todoapp.security.oauth2.exception.OAuth2AuthenticationProcessingException;
 import com.kurbatov.todoapp.security.oauth2.user.OAuth2UserInfo;
 import com.kurbatov.todoapp.security.oauth2.user.OAuth2UserInfoFactory;
-import com.kurbatov.todoapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +24,7 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
-    private UserService userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private OAuth2UserInfoFactory oAuth2UserInfoFactory;
@@ -60,9 +60,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user;
         if (userOptional.isPresent()) {
             user = userOptional.get();
-            if (!user.getProvider().equals(
-                    AuthProvider.toEnum(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
-            ) {
+            AuthProvider provider = AuthProvider.toEnum(oAuth2UserRequest.getClientRegistration().getRegistrationId());
+            if (!user.getProvider().equals(provider)) {
+
                 throw new OAuth2AuthenticationProcessingException(
                         ErrorType.AUTH_OAUTH2_WRONG_AUTH_MECHANISM,
                         user.getProvider().name()
@@ -86,12 +86,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
         user.setActive(true);
         user.setEmailConfirmed(false);
-        return userRepository.saveUser(user);
+        return userRepository.save(user);
     }
 
     private User updateExistingUser(User existingUser, OAuth2UserInfo oAuth2UserInfo) {
         existingUser.setFirstName(oAuth2UserInfo.getName());
-        return userRepository.saveUser(existingUser);
+        return userRepository.save(existingUser);
     }
 
 }

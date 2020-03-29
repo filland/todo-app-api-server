@@ -2,8 +2,8 @@ package com.kurbatov.todoapp.controller;
 
 import com.kurbatov.todoapp.BaseWebMvcTest;
 import com.kurbatov.todoapp.dto.LoginRQ;
-import com.kurbatov.todoapp.dto.RegisterRQ;
-import com.kurbatov.todoapp.dto.RegisterRS;
+import com.kurbatov.todoapp.dto.RegisterUserRQ;
+import com.kurbatov.todoapp.dto.RegisterUserRS;
 import com.kurbatov.todoapp.dto.ValidationRS;
 import com.kurbatov.todoapp.exception.ErrorType;
 import com.kurbatov.todoapp.persistence.entity.User;
@@ -128,37 +128,37 @@ public class AuthControllerTest extends BaseWebMvcTest {
     @Test
     void validUserInfo_registerTest() throws Exception {
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("user2");
-        registerRQ.setEmail("todoapp@todoapp456.com");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("user2");
+        registerUserRQ.setEmail("todoapp@todoapp456.com");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        RegisterRS registerRS =
-                objectMapper.readValue(result.getResponse().getContentAsString(), RegisterRS.class);
+        RegisterUserRS registerUserRS =
+                objectMapper.readValue(result.getResponse().getContentAsString(), RegisterUserRS.class);
 
-        assertNotNull(registerRS.getId());
+        assertNotNull(registerUserRS.getId());
     }
 
 
     @Test
     void invalidSymbolsInUsername_registerTest() throws Exception {
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("user2&?*");
-        registerRQ.setEmail("invalidSymbolsInUsername_registerTest@todoapp456.com");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("user2&?*");
+        registerUserRQ.setEmail("invalidSymbolsInUsername_registerTest@todoapp456.com");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -174,14 +174,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
     @Test
     void usernameIsTooShort_registerTest() throws Exception {
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("u");
-        registerRQ.setEmail("usernameIsTooShort_registerTest@todoapp456.com");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("u");
+        registerUserRQ.setEmail("usernameIsTooShort_registerTest@todoapp456.com");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -202,14 +202,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
             tooLongUsername.append("a");
         }
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername(tooLongUsername.toString());
-        registerRQ.setEmail("usernameIsTooShort_registerTest@todoapp456.com");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername(tooLongUsername.toString());
+        registerUserRQ.setEmail("usernameIsTooShort_registerTest@todoapp456.com");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -225,14 +225,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
     @Test
     void suchUsernameAlreadyExists_registerTest() throws Exception {
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername(existingUsername);
-        registerRQ.setEmail("suchUsernameAlreadyExists@todoapp.com");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername(existingUsername);
+        registerUserRQ.setEmail("suchUsernameAlreadyExists@todoapp.com");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -249,14 +249,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
     @Test
     void invalidEmail_registerTest() throws Exception {
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("invalidEmail_registerTest");
-        registerRQ.setEmail("invalidEmail");
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("invalidEmail_registerTest");
+        registerUserRQ.setEmail("invalidEmail");
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -272,14 +272,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
     @Test
     void emailAlreadyExists_registerTest() throws Exception {
 
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("emailAlreadyExists_registerTe");
-        registerRQ.setEmail(existingUserEmail);
-        registerRQ.setPassword("123123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("emailAlreadyExists_registerTe");
+        registerUserRQ.setEmail(existingUserEmail);
+        registerUserRQ.setPassword("123123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -294,14 +294,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
 
     @Test
     void passwordTooShort_registerTest() throws Exception {
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("passwordTooShort_test");
-        registerRQ.setEmail("passwordTooShort_test@todoapp.com");
-        registerRQ.setPassword("123");
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("passwordTooShort_test");
+        registerUserRQ.setEmail("passwordTooShort_test@todoapp.com");
+        registerUserRQ.setPassword("123");
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )
@@ -321,14 +321,14 @@ public class AuthControllerTest extends BaseWebMvcTest {
         for (int i = 0; i < 35; i++) {
             tooLongPassword.append("a");
         }
-        RegisterRQ registerRQ = new RegisterRQ();
-        registerRQ.setUsername("passwordTooLong_registerTest");
-        registerRQ.setEmail("passwordTooLong_test@todoapp.com");
-        registerRQ.setPassword(tooLongPassword.toString());
+        RegisterUserRQ registerUserRQ = new RegisterUserRQ();
+        registerUserRQ.setUsername("passwordTooLong_registerTest");
+        registerUserRQ.setEmail("passwordTooLong_test@todoapp.com");
+        registerUserRQ.setPassword(tooLongPassword.toString());
 
         MvcResult result = mockMvc.perform(post("/auth/register")
                 .with(csrf())
-                .content(objectMapper.writeValueAsString(registerRQ))
+                .content(objectMapper.writeValueAsString(registerUserRQ))
                 .characterEncoding("utf-8")
                 .contentType(MediaType.APPLICATION_JSON)
         )

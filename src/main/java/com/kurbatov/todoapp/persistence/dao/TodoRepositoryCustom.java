@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface TodoRepositoryCustom {
 
+    @Deprecated
     List<Todo> findSeveral(Integer page, Integer limit, Long userId);
 }

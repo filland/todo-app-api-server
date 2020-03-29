@@ -90,4 +90,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public String getLastName() {
         return user.getLastName();
     }
+
+    public Boolean isActive() {
+        return user.isActive();
+    }
 }
